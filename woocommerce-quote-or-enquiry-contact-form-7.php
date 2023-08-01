@@ -6,16 +6,16 @@ Description: A plugin to add product enquiry button with contact form 7
 
 Author: Geek Code Lab
 
-Version: 2.6
+Version: 2.7
 
-WC tested up to: 7.7.0
+WC tested up to: 7.9.0
 
 Author URI: https://geekcodelab.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",2.6);
+define("WQOECF_BUILD",2.7);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	
