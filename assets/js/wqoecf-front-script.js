@@ -10,8 +10,6 @@ jQuery("body").on("click", ".wqoecf_enquiry_button", function () {
     jQuery('.wqoecf-pop-up-box div.wpcf7>form input[name="product-name"]').attr("readonly", true);
     loading.remove();
 
-    jQuery(".wqoecf-pop-up-box .wpcf7 > form").init(".wqoecf-pop-up-box .wpcf7 > form");
-
     jQuery(".wqoecf-pop-up-box").fadeIn();
 });
 
