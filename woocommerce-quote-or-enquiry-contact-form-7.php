@@ -6,16 +6,16 @@ Description: A plugin to add product enquiry button with contact form 7
 
 Author: Geek Code Lab
 
-Version: 2.7
+Version: 2.8
 
-WC tested up to: 7.9.0
+WC tested up to: 8.2.2
 
 Author URI: https://geekcodelab.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",2.7);
+define("WQOECF_BUILD",2.8);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	
@@ -102,9 +102,7 @@ function wqoecf_admin_menu_quote_or_enquiry_contact_form(){
 
 }
 
-function wqoecf_quote_or_enquiry_contact_form_page_setting(){
-
-
+function wqoecf_quote_or_enquiry_contact_form_page_setting() {
 	if(!current_user_can('manage_options') ){
 		wp_die( __('You do not have sufficient permissions to access this page.') );
 	}
@@ -246,12 +244,7 @@ function wqoecf_quote_enquiry_script()
 			<?php echo do_shortcode('[contact-form-7 id="'.$contactform.'"]'); ?>
 		</div>
 	</div>
-
-
-
 	<?php
-
-	
 }
   
 add_action('wp_head','wqoecf_set_button_color');
@@ -268,8 +261,16 @@ function wqoecf_set_button_color(){?>
 			}
 		<?php
 		}  ?>
-		
 	</style> 
-
 	<?php 
+}
+
+/**
+ * Added HPOS support for woocommerce
+ */
+add_action( 'before_woocommerce_init', 'wqoecf_before_woocommerce_init' );
+function wqoecf_before_woocommerce_init() {
+    if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
 }
