@@ -8,7 +8,7 @@ Author: Geek Code Lab
 
 Version: 2.8
 
-WC tested up to: 8.2.2
+WC tested up to: 8.3.0
 
 Author URI: https://geekcodelab.com/
 */
@@ -39,22 +39,30 @@ add_action('admin_print_styles', 'wqoecf_admin_styles');
 register_activation_hook( __FILE__, 'wqoecf_plugin_active_quote_or_enquiry_contact_form' );
 
 function wqoecf_plugin_active_quote_or_enquiry_contact_form(){
-	$error='required <b>woocommerce</b> plugin.';	
-	$err='required <b>Contact Form-7</b> plugin.';	
-	if ( !class_exists( 'WooCommerce' ) ) {
-	   die('Plugin NOT activated: ' . $error);
-	  
-	}
-	if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-		
-		 die('Plugin NOT activated: ' . $err);
-	} 
 	$options_db =  wqoecf_quote_enquiry_options();
 	if(empty($options_db))
 	{
 		do_action( 'wp_default_color_text_options' );
 	}
 }
+/** Trigger an admin notice if WooCommerce or Contact Form 7 is not installed.*/
+if ( ! function_exists( 'wqoecf_install_require_plugins_admin_notice' ) ) {
+	function wqoecf_install_require_plugins_admin_notice() {
+		if ( ! function_exists( 'WC' ) || ! is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+			<div class="error">
+				<p>
+					<?php
+					// translators: %s is the plugin name.
+					echo esc_html( sprintf( __( '%s is enabled but not effective. It requires both two plugins WooCommerce and Contact Form 7 in order to work.' ), 'WooCommerce Quote or Enquiry Contact Form 7' ) );
+					?>
+				</p>
+			</div>
+		<?php
+		}
+	}
+}
+add_action( 'admin_notices', 'wqoecf_install_require_plugins_admin_notice' );
+
 //Set default values of color && text
 function wqoecf_default_color_text_options(){
 	$btntext="Enquiry";
