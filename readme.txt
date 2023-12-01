@@ -45,6 +45,15 @@ Note: This plugins is supported for only simple product
 * Manually disable enquiry button for single product page
 * Manually disable enquiry button for shop page
 
+== You can use shortcode ==
+Whenever you need to show the enquiry button on a custom page or in a specific place of the page, you can rely on this shortcode:
+
+<code>[wqoecf_button_quote]</code>
+
+Make sure you enter the product’s ID with the parameter “product” to link the button to the right product in your WooCommerce. For example: <strong>[wqoecf_button_quote product="1234"]</strong> will let your users add product with ID 1234 to the cart.
+
+However, it is not necessary to enter the product ID when using the shortcode on a standard WooCommerce product page, as it will automatically link the button to the product it belongs to.
+
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
