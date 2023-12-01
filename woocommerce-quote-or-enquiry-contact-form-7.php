@@ -1,28 +1,21 @@
 <?php
 /*
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
-
 Description: A plugin to add product enquiry button with contact form 7 
-
 Author: Geek Code Lab
-
-Version: 2.8
-
+Version: 2.9
 WC tested up to: 8.3.0
-
 Author URI: https://geekcodelab.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",2.8);
+define("WQOECF_BUILD",2.9);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
-	
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
 	
 if(!defined("WQOECF_PLUGIN_URL"))
-	
 	define("WQOECF_PLUGIN_URL",plugins_url().'/'.basename(dirname(__FILE__)));	
 
 
@@ -90,9 +83,13 @@ $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'wqoecf_plugin_add_settings_link');
 
 function wqoecf_include_front_script() {
-   wp_enqueue_style("wqoecf-front-style.css", WQOECF_PLUGIN_URL."/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);  
-   wp_enqueue_script("wqoecf-front-script", WQOECF_PLUGIN_URL."/assets/js/wqoecf-front-script.js", array(), WQOECF_BUILD, true);
-   
+	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);  
+	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/wqoecf-front-script.js", array(), WQOECF_BUILD, true);
+
+	if( is_woocommerce() ) {
+		wp_enqueue_style( 'wqoecf-front-woo-quote' );
+		wp_enqueue_script( 'wqoecf-front-woo-quote' );
+	}	
 }
 function wqoecf_admin_styles() {
 	if( is_admin() ) {
@@ -179,6 +176,11 @@ add_action("init","wqoecf_main");
 function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 	global $post;
 
+	if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
+		wp_enqueue_style( 'wqoecf-front-woo-quote' );
+		wp_enqueue_script( 'wqoecf-front-woo-quote' );
+	}	
+
 	$btntext="";
 	$options= wqoecf_quote_enquiry_options();
 	if(isset($options['button_text'])){
@@ -198,6 +200,10 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 }
 
 function wqoecf_single_page_enquiry_button(){
+	if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
+		wp_enqueue_style( 'wqoecf-front-woo-quote' );
+		wp_enqueue_script( 'wqoecf-front-woo-quote' );
+	}	
 
 	$disable_form=get_option_quote_wqoecf_disable_form(get_the_ID());
 	$btntext="";
@@ -271,6 +277,55 @@ function wqoecf_set_button_color(){?>
 		}  ?>
 	</style> 
 	<?php 
+}
+
+/** Shortcode for Enquiry button */
+add_shortcode( 'wqoecf_button_quote', 'wqoecf_req_button_quote' );
+function wqoecf_req_button_quote($atts, $content = null) {
+	if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
+		wp_enqueue_style( 'wqoecf-front-woo-quote' );
+		wp_enqueue_script( 'wqoecf-front-woo-quote' );
+	}
+
+    $args = shortcode_atts( array( 'product' => false ), $atts );
+
+    ob_start();
+
+    wqoecf_render_button( $args['product'], $args );
+
+    return ob_get_clean();
+}
+
+function wqoecf_render_button( $product_id = false, $args = array() ) {
+	$btntext = '';
+	$options= wqoecf_quote_enquiry_options();
+    if ( ! $product_id ) {
+        global $product, $post;
+        if( !$product instanceof WC_Product && $post instanceof WP_Post){
+            $product = wc_get_product( $post->ID);
+        }
+    } else {
+        $product = wc_get_product( $product_id );
+    }
+
+    global $woocommerce_loop;
+
+	if($product) {
+		$product_id = $product->get_id();
+
+		$template_button = 'add-to-quote.php';
+		$wcloop_name = ! is_null( $woocommerce_loop ) && ! is_null( $woocommerce_loop['name'] ) ? $woocommerce_loop['name'] : '';
+
+		$pro_title = get_the_title($product_id);
+
+		if(isset($options['button_text'])){
+			$btntext = $options['button_text'];
+		}
+
+		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)" data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+
+		echo $button;
+	}
 }
 
 /**

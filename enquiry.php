@@ -1,13 +1,8 @@
 <?php
 add_action( 'woocommerce_product_options_advanced', 'wqoecf_quote_or_enquiry_disable_option' );
 function wqoecf_quote_or_enquiry_disable_option() {
-
-
-  global $woocommerce, $post;
- 
+  	global $woocommerce, $post;
 	$wqoecf_disable_form_value=get_post_meta( $post->ID, '_wqoecf_disable_form', true );
-	
-
 	woocommerce_wp_checkbox( 
 	array( 
 		'id'            => '_wqoecf_disable_form',
@@ -21,13 +16,8 @@ function wqoecf_quote_or_enquiry_disable_option() {
 
 // Save Data
 add_action( 'woocommerce_process_product_meta', 'wqoecf_quote_or_enquiry_save_option' );
-
 function wqoecf_quote_or_enquiry_save_option( $post_id ){
-	
 	$wqoecf_disable_form = isset( $_POST['_wqoecf_disable_form'] ) ? 'yes' : 'no';
-	
 	update_post_meta( $post_id, '_wqoecf_disable_form', $wqoecf_disable_form );	
-	
 }
-
 ?>
