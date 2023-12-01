@@ -4,9 +4,9 @@ Donate link: https://paypal.me/rvadhel
 Tags:WooCommerce Quote Contact Form 7,WooCommerce Enquiry Contact Form 7, WooCommerce Contact Form 7
 Requires PHP: 5.2.4
 Requires at least: 3.0.1
-Tested up to: 6.2.2
-WC tested up to: 7.7.0
-Stable tag: 2.6
+Tested up to: 6.4.1
+WC tested up to: 8.3.0
+Stable tag: 2.9
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically .
 
@@ -18,6 +18,7 @@ This Plugin provide you options to select contact form 7 from lists, options to 
 
 You will have the flexibility to display enquiry button for particular product and hide add to cart button on product, shop and category page. 
 
+[youtube https://youtu.be/U7x0PH7XPaA]
 == CONTACT FORM 7  ==
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you option to set a contact form 7 forms as enquiry form with product name.
@@ -44,6 +45,15 @@ Note: This plugins is supported for only simple product
 * Manually disable enquiry button for Guest user
 * Manually disable enquiry button for single product page
 * Manually disable enquiry button for shop page
+
+== You can use shortcode ==
+Whenever you need to show the enquiry button on a custom page or in a specific place of the page, you can rely on this shortcode:
+
+<code>[wqoecf_button_quote]</code>
+
+Make sure you enter the product’s ID with the parameter “product” to link the button to the right product in your WooCommerce. For example: <strong>[wqoecf_button_quote product="1234"]</strong> will let your users add product with ID 1234 to the cart.
+
+However, it is not necessary to enter the product ID when using the shortcode on a standard WooCommerce product page, as it will automatically link the button to the product it belongs to.
 
 == Installation ==
 
@@ -117,3 +127,13 @@ After Plugin Active go to WooCommerce-> Quote Or Enquiry Contact Form 7.
 
 = 2.6=
 ** checked with WordPress version 6.2.2
+
+= 2.7=
+**Fix bug
+
+= 2.8=
+**Added woocommerce HPOS support.
+**Tested up to 6.4 wordpress version.
+
+= 2.9=
+**Added shortcode to print enquiry button [wqoecf_button_quote]
