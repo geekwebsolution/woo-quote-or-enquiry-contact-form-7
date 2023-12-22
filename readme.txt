@@ -45,6 +45,7 @@ Note: This plugins is supported for only simple product
 * Manually disable enquiry button for Guest user
 * Manually disable enquiry button for single product page
 * Manually disable enquiry button for shop page
+* Manually have option to set product enquiry button for particular product category and tag
 
 == You can use shortcode ==
 Whenever you need to show the enquiry button on a custom page or in a specific place of the page, you can rely on this shortcode:
@@ -137,3 +138,6 @@ After Plugin Active go to WooCommerce-> Quote Or Enquiry Contact Form 7.
 
 = 2.9=
 **Added shortcode to print enquiry button [wqoecf_button_quote]
+
+= 3.0=
+**Added a feature to allow the 'show enquiry' button for specific tag and category products.

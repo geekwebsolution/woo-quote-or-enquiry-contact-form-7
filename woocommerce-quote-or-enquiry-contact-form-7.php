@@ -64,6 +64,8 @@ function wqoecf_default_color_text_options(){
 	$options['button_color'] = $btncolor;
 	$options['product_single_page'] = 'on';
 	$options['product_list_page'] = 'on';
+	$options['product_categories'] = array();
+	$options['product_tag'] = array();
 	update_option('wqoecf_quote_or_enquiry_settings', $options);
 }
 add_action( 'wp_default_color_text_options', 'wqoecf_default_color_text_options' );
@@ -95,6 +97,8 @@ function wqoecf_admin_styles() {
 	if( is_admin() ) {
 		$css=WQOECF_PLUGIN_URL."/assets/css/wqoecf_admin_style.css";	
 		wp_enqueue_style('wqoecf-admin-style.css', $css, array(), WQOECF_BUILD);
+		wp_enqueue_style("wqoecf-admin-woo-quote-select-style", WQOECF_PLUGIN_URL."/assets/css/select2.min.css", array(), WQOECF_BUILD);
+		wp_enqueue_script("wqoecf-front-woo-quote-select-script", WQOECF_PLUGIN_URL."/assets/js/select2.min.js", array(), WQOECF_BUILD);
 		wp_enqueue_script( 'wp-color-picker' );
 		 // Add the color picker css file       
         wp_enqueue_style( 'wp-color-picker' ); 
@@ -115,13 +119,17 @@ function wqoecf_quote_or_enquiry_contact_form_page_setting() {
 }
 function wqoecf_main()
 {
-
+	
 	$options =  wqoecf_quote_enquiry_options();
+
 	$status="";
 	$contactform="";
 	$allow_user = "";
+	$allow_category 		= '';
 	$product_single_page = "";
 	$product_list_page = "";
+	$product_categories = array();
+	$get_product_tag = array();
 	$single_page="";
 	$list_page="";
 	if(isset($options['status'])){
@@ -139,6 +147,16 @@ function wqoecf_main()
 	if(isset($options['product_list_page'])){
 		$product_list_page = $options['product_list_page'];
 	}
+	if (isset($options['allow_category'])) {
+		$allow_category = $options['allow_category'];
+	}
+	if(isset($options['product_categories'])){
+		$product_categories = $options['product_categories'];
+	}
+	if(isset($options['product_tag'])){
+		$get_product_tag = $options['product_tag'];
+	}
+
 	if($status=='on' && !empty($contactform)){
 		$options_status =  wqoecf_quote_enquiry_options();
 		if(isset($options['product_single_page'])){
@@ -150,6 +168,9 @@ function wqoecf_main()
 		if($list_page == 'on'){  
 			if($allow_user != 'on'){
 				if(is_user_logged_in()){
+
+					
+
 			 		add_filter( 'woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2 );
 				}
 			}else{
@@ -186,17 +207,24 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 	if(isset($options['button_text'])){
 		$btntext = $options['button_text'];
 	}
-	
+
 	$disable_form=get_option_quote_wqoecf_disable_form($product->get_id());
-	if($disable_form!='yes')
+
+	if($disable_form!='yes' && $options['allow_category'] != 'on')
 	{
 		global $post;
 		$pro_title = get_the_title($post->ID);
 		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
 	}
-    return $button;
 
-	
+	if($disable_form!='yes' && $options['allow_category'] == 'on' && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product->get_id() )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product->get_id()) )))
+	{
+		global $post;
+		$pro_title = get_the_title($post->ID);
+		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+	} 
+
+    return $button;
 }
 
 function wqoecf_single_page_enquiry_button(){
@@ -213,7 +241,9 @@ function wqoecf_single_page_enquiry_button(){
 		$btntext = $options['button_text'];
 	}
 	
-	if($disable_form!='yes')
+	$product_id = wc_get_product()->get_id();
+
+	if($disable_form!='yes' && $options['allow_category'] == 'on' && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product_id )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product_id) )))
 	{
 		global $post;
 		$pro_title = get_the_title($post->ID);
@@ -327,6 +357,8 @@ function wqoecf_render_button( $product_id = false, $args = array() ) {
 		echo $button;
 	}
 }
+
+
 
 /**
  * Added HPOS support for woocommerce
