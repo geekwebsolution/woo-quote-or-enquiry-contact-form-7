@@ -4,9 +4,9 @@ Donate link: https://paypal.me/rvadhel
 Tags:WooCommerce Quote Contact Form 7,WooCommerce Enquiry Contact Form 7, WooCommerce Contact Form 7
 Requires PHP: 5.2.4
 Requires at least: 3.0.1
-Tested up to: 6.4.1
-WC tested up to: 8.3.0
-Stable tag: 2.9
+Tested up to: 6.4.2
+WC tested up to: 8.4.0
+Stable tag: 3.0
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically .
 
@@ -40,6 +40,7 @@ Note: This plugins is supported for only simple product
 * Set up product enquiry form popup from contact form 7 forms list 
 * Set up enquiry button color as per your theme main color requirement
 * Options to set up enquiry button text as per your requirement
+* Include "enquiry" button to specific product category and tags
 * Manually have option to set product enquiry button for particular product 
 * Manually disable enquiry button for specific product
 * Manually disable enquiry button for Guest user
@@ -58,8 +59,6 @@ However, it is not necessary to enter the product ID when using the shortcode on
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
-
-
 
 After Plugin Active go to WooCommerce-> Quote Or Enquiry Contact Form 7.
 
@@ -137,3 +136,6 @@ After Plugin Active go to WooCommerce-> Quote Or Enquiry Contact Form 7.
 
 = 2.9=
 **Added shortcode to print enquiry button [wqoecf_button_quote]
+
+= 3.0=
+**Added a option to include 'enquiry' button for specific category and tag of products.
