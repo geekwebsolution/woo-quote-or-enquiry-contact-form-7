@@ -242,7 +242,12 @@ function wqoecf_single_page_enquiry_button(){
 	}
 	
 	$product_id = wc_get_product()->get_id();
-
+	if($disable_form!='yes' && $options['allow_category'] != 'on')
+	{
+		global $post;
+		$pro_title = get_the_title($post->ID);
+		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+	}
 	if($disable_form!='yes' && $options['allow_category'] == 'on' && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product_id )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product_id) )))
 	{
 		global $post;
