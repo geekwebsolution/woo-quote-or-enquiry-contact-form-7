@@ -3,14 +3,14 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 2.9
-WC tested up to: 8.3.0
+Version: 3.1
+WC tested up to: 8.4.0
 Author URI: https://geekcodelab.com/
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",2.9);
+define("WQOECF_BUILD",3.1);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
@@ -22,22 +22,19 @@ if(!defined("WQOECF_PLUGIN_URL"))
 require_once( WQOECF_PLUGIN_DIR_PATH .'functions.php' );
 include( WQOECF_PLUGIN_DIR_PATH . 'enquiry.php' );
 
-
-add_action('admin_menu', 'wqoecf_admin_menu_quote_or_enquiry_contact_form' );
-
-add_action( 'wp_enqueue_scripts', 'wqoecf_include_front_script' );
-
-add_action('admin_print_styles', 'wqoecf_admin_styles');
- 
+/**
+ * Regisration activation
+ */
 register_activation_hook( __FILE__, 'wqoecf_plugin_active_quote_or_enquiry_contact_form' );
 
-function wqoecf_plugin_active_quote_or_enquiry_contact_form(){
+function wqoecf_plugin_active_quote_or_enquiry_contact_form() {
 	$options_db =  wqoecf_quote_enquiry_options();
 	if(empty($options_db))
 	{
 		do_action( 'wp_default_color_text_options' );
 	}
 }
+
 /** Trigger an admin notice if WooCommerce or Contact Form 7 is not installed.*/
 if ( ! function_exists( 'wqoecf_install_require_plugins_admin_notice' ) ) {
 	function wqoecf_install_require_plugins_admin_notice() {
@@ -56,7 +53,9 @@ if ( ! function_exists( 'wqoecf_install_require_plugins_admin_notice' ) ) {
 }
 add_action( 'admin_notices', 'wqoecf_install_require_plugins_admin_notice' );
 
-//Set default values of color && text
+/**
+ * Set default values of color && text
+ */
 function wqoecf_default_color_text_options(){
 	$btntext="Enquiry";
 	$btncolor="#289dcc";
@@ -70,7 +69,11 @@ function wqoecf_default_color_text_options(){
 }
 add_action( 'wp_default_color_text_options', 'wqoecf_default_color_text_options' );
 
-
+/**
+ * Plugin setting links
+ */
+$plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$plugin", 'wqoecf_plugin_add_settings_link');
 function wqoecf_plugin_add_settings_link( $links ) { 
 	$support_link = '<a href="https://geekcodelab.com/contact/"  target="_blank" >' . __( 'Support' ) . '</a>'; 
 	array_unshift( $links, $support_link );	
@@ -81,9 +84,10 @@ function wqoecf_plugin_add_settings_link( $links ) {
 	return $links;	
 }
 
-$plugin = plugin_basename( __FILE__ );
-add_filter( "plugin_action_links_$plugin", 'wqoecf_plugin_add_settings_link');
-
+/**
+ * Register front scripts
+ */
+add_action( 'wp_enqueue_scripts', 'wqoecf_include_front_script' );
 function wqoecf_include_front_script() {
 	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);  
 	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/wqoecf-front-script.js", array(), WQOECF_BUILD, true);
@@ -93,6 +97,11 @@ function wqoecf_include_front_script() {
 		wp_enqueue_script( 'wqoecf-front-woo-quote' );
 	}	
 }
+
+/**
+ * Register admin scripts
+ */
+add_action('admin_print_styles', 'wqoecf_admin_styles');
 function wqoecf_admin_styles() {
 	if( is_admin() ) {
 		$css=WQOECF_PLUGIN_URL."/assets/css/wqoecf_admin_style.css";	
@@ -104,11 +113,13 @@ function wqoecf_admin_styles() {
         wp_enqueue_style( 'wp-color-picker' ); 
 	}
 }
- 
-function wqoecf_admin_menu_quote_or_enquiry_contact_form(){
-	
-	add_submenu_page( 'woocommerce','Quote Or Enquiry Contact Form 7', 'Quote Or Enquiry Contact Form 7', 'manage_options', 'wqoecf-quote-or-enquiry-contact-form', 'wqoecf_quote_or_enquiry_contact_form_page_setting');
 
+/**
+ * Add sub menu for quote or enquiry settings 
+ */
+add_action('admin_menu', 'wqoecf_admin_menu_quote_or_enquiry_contact_form' );
+function wqoecf_admin_menu_quote_or_enquiry_contact_form() {
+	add_submenu_page( 'woocommerce','Quote Or Enquiry Contact Form 7', 'Quote Or Enquiry Contact Form 7', 'manage_options', 'wqoecf-quote-or-enquiry-contact-form', 'wqoecf_quote_or_enquiry_contact_form_page_setting');
 }
 
 function wqoecf_quote_or_enquiry_contact_form_page_setting() {
@@ -117,8 +128,54 @@ function wqoecf_quote_or_enquiry_contact_form_page_setting() {
 	}
 	include( WQOECF_PLUGIN_DIR_PATH . 'options.php' );	
 }
-function wqoecf_main()
-{
+
+function wqoecf_show_enquiry_button( $product_id ) {
+
+	$_product = wc_get_product( $product_id );
+
+	$wqoecf_show_enquiry_button = false;
+	$options = wqoecf_quote_enquiry_options();
+
+	$disable_form = get_option_quote_wqoecf_disable_form($product_id);
+	
+	if($disable_form!='yes' && $options['allow_category'] != 'on' && !empty($_product)) {
+		$wqoecf_show_enquiry_button = true;
+	}
+
+	if($disable_form!='yes' && $options['allow_category'] == 'on' && !empty($_product) && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product_id )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product_id) ))) {
+		$wqoecf_show_enquiry_button = true;
+	}
+
+	if($wqoecf_show_enquiry_button) {
+		return true;
+	}
+
+	return false;
+}
+
+function wqoecf_allow_enquiry_to_user() {
+
+	$single_page = $allow_user = "";
+	$options =  wqoecf_quote_enquiry_options();
+
+	if(isset($options['product_single_page']))		$single_page = $options['product_single_page'];
+	if(isset($options['allow_user']))		$allow_user = $options['allow_user'];
+
+	if($single_page == 'on'){  
+		if($allow_user != 'on'){
+			
+			if(is_user_logged_in()){
+				return true;
+			}
+		}else{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function wqoecf_main() {
 	
 	$options =  wqoecf_quote_enquiry_options();
 
@@ -158,38 +215,25 @@ function wqoecf_main()
 	}
 
 	if($status=='on' && !empty($contactform)){
-		$options_status =  wqoecf_quote_enquiry_options();
-		if(isset($options['product_single_page'])){
-		$single_page = $options_status['product_single_page'];
-		}
-		if(isset($options['product_list_page'])){
-		$list_page = $options_status['product_list_page'];
-		}
+		$list_page = "";
+		$options =  wqoecf_quote_enquiry_options();
+		if(isset($options['product_list_page']))		$list_page = $options['product_list_page'];
+
 		if($list_page == 'on'){  
 			if($allow_user != 'on'){
-				if(is_user_logged_in()){
-
-					
-
+				if(is_user_logged_in()) {
 			 		add_filter( 'woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2 );
 				}
 			}else{
-					add_filter( 'woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2 );
+				add_filter( 'woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2 );
 			}
 		}
 
-		if($single_page == 'on'){  
-			if($allow_user != 'on'){
-				if(is_user_logged_in()){
-			 		add_action( 'woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30 );
-					add_action('wp','wqoecf_single_page_remove_add_cart');
-				}
-			}else{
-					add_action( 'woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30 );
-					add_action('wp','wqoecf_single_page_remove_add_cart');
-			}
-		}
 		
+		if(wqoecf_allow_enquiry_to_user()) {
+			add_action( 'woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30 );
+			add_action('wp','wqoecf_single_page_remove_add_cart');
+		}
 	}	
 }
 
@@ -197,76 +241,47 @@ add_action("init","wqoecf_main");
 function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 	global $post;
 
-	if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
-		wp_enqueue_style( 'wqoecf-front-woo-quote' );
-		wp_enqueue_script( 'wqoecf-front-woo-quote' );
-	}	
+	if(wqoecf_show_enquiry_button($product->get_id())) {
+		if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
+			wp_enqueue_style( 'wqoecf-front-woo-quote' );
+			wp_enqueue_script( 'wqoecf-front-woo-quote' );
+		}
 
-	$btntext="";
-	$options= wqoecf_quote_enquiry_options();
-	if(isset($options['button_text'])){
-		$btntext = $options['button_text'];
-	}
-
-	$disable_form=get_option_quote_wqoecf_disable_form($product->get_id());
-
-	if($disable_form!='yes' && $options['allow_category'] != 'on')
-	{
-		global $post;
-		$pro_title = get_the_title($post->ID);
+		$btntext="";
+		$options= wqoecf_quote_enquiry_options();
+		if(isset($options['button_text']))		$btntext = $options['button_text'];
+	
+		$pro_title = get_the_title($product->get_id());
 		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
 	}
-
-	if($disable_form!='yes' && $options['allow_category'] == 'on' && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product->get_id() )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product->get_id()) )))
-	{
-		global $post;
-		$pro_title = get_the_title($post->ID);
-		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
-	} 
 
     return $button;
 }
 
 function wqoecf_single_page_enquiry_button(){
-	if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
-		wp_enqueue_style( 'wqoecf-front-woo-quote' );
-		wp_enqueue_script( 'wqoecf-front-woo-quote' );
-	}	
 
-	$disable_form=get_option_quote_wqoecf_disable_form(get_the_ID());
-	$btntext="";
-	$options= wqoecf_quote_enquiry_options();
-
-	if(isset($options['button_text'])){
-		$btntext = $options['button_text'];
-	}
-	
 	$product_id = wc_get_product()->get_id();
-	if($disable_form!='yes' && $options['allow_category'] != 'on')
-	{
-		global $post;
-		$pro_title = get_the_title($post->ID);
+
+	if(wqoecf_show_enquiry_button($product_id)) {
+		if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
+			wp_enqueue_style( 'wqoecf-front-woo-quote' );
+			wp_enqueue_script( 'wqoecf-front-woo-quote' );
+		}
+		
+		$btntext="";
+		$options	= wqoecf_quote_enquiry_options();
+		if(isset($options['button_text']))		$btntext = $options['button_text'];
+	
+		$pro_title = get_the_title($product_id);
+		
 		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
 	}
-	if($disable_form!='yes' && $options['allow_category'] == 'on' && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product_id )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product_id) )))
-	{
-		global $post;
-		$pro_title = get_the_title($post->ID);
-		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
-		  
-	} 
-	
 } 
-function wqoecf_single_page_remove_add_cart(){
-
+function wqoecf_single_page_remove_add_cart() {
 	$product_id = get_the_ID(); // the ID of the product to check
 	$_product = wc_get_product( $product_id );
-	$disable_form=get_option_quote_wqoecf_disable_form( get_the_ID() ); 
-
-	if($disable_form!='yes' && !empty($_product)){		
-		if( $_product->is_type( 'simple' ) ) {
-			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );			
-		}
+	if(wqoecf_show_enquiry_button($product_id)) {
+			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 		remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
 	}
 }
@@ -285,8 +300,6 @@ function wqoecf_quote_enquiry_script()
 	
 	?>
 	<div class="wqoecf-pop-up-box" style="display: none;" data-loader-path="<?php echo WQOECF_PLUGIN_URL; ?>/assets/images/ajax-loader.gif">
-		<!-- <img class="wqoecf_close" src="<?php echo WQOECF_PLUGIN_URL; ?>/assets/images/close.png" onclick="wqoecf_hide()"> -->
-
 		<button class="wqoecf_close" onclick="wqoecf_hide()"><span></span><span></span></button>
 		<div>
 			<p class="wqoecf_form_title"><?php echo $form_title; ?></p>
