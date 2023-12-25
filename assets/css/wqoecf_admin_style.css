@@ -165,6 +165,16 @@ h1.wqoecf-title {
     padding-left: 12px;
 }
 
+
+.wqoecf_inner .form-table .select2-container {
+    min-width: 350px;
+    min-height: 40px;
+}
+
+.wqoecf_inner .form-table .select2-selection {
+    min-width: max-content;
+}
+
 .wqoecf_inner span.wp-color-result-text {
     padding: 0 20px;
     font-size: 12px;

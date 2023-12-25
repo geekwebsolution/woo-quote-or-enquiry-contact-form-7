@@ -7,6 +7,9 @@ if (isset($_POST['wqoecf_add_form'])) {
 	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
 
 
+	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
+
+
 	if (isset($_POST['wqoecf_status'])) 				$wqoecf_status 				= sanitize_text_field($_POST['wqoecf_status']);
 	if (isset($_POST['wqoecf-allow-user']))  			$wqoecf_allow_user 			= sanitize_text_field($_POST['wqoecf-allow-user']);	
 	if (isset($_POST['wqoecf-product-single-page'])) 	$wqoecf_product_single_page = sanitize_text_field($_POST['wqoecf-product-single-page']);

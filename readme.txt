@@ -40,6 +40,7 @@ Note: This plugins is supported for only simple product
 * Set up product enquiry form popup from contact form 7 forms list 
 * Set up enquiry button color as per your theme main color requirement
 * Options to set up enquiry button text as per your requirement
+* Include "enquiry" button to specific product category and tags
 * Manually have option to set product enquiry button for particular product 
 * Manually disable enquiry button for specific product
 * Manually disable enquiry button for Guest user
@@ -59,8 +60,6 @@ However, it is not necessary to enter the product ID when using the shortcode on
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
-
-
 
 After Plugin Active go to WooCommerce-> Quote Or Enquiry Contact Form 7.
 
