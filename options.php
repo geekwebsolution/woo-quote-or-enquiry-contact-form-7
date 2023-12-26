@@ -6,9 +6,7 @@ if (isset($_POST['wqoecf_add_form'])) {
 
 	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
 
-
 	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
-
 
 	if (isset($_POST['wqoecf_status'])) 				$wqoecf_status 				= sanitize_text_field($_POST['wqoecf_status']);
 	if (isset($_POST['wqoecf-allow-user']))  			$wqoecf_allow_user 			= sanitize_text_field($_POST['wqoecf-allow-user']);	
@@ -210,8 +208,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 								?>
 
 								<select multiple name="wqoecf-pro-categories[]" id="wqoecf-pro-categories" class="wqoecf-select-multiple">
-									<option>-- All Categories --</option>
-
+									
 									<?php  
 									$select = 'selected';
 									foreach ($categories as $key => $value) {
@@ -242,8 +239,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 								?>
 
 								<select multiple name="wqoecf-products-tags[]" id="wqoecf-products-tags" class="wqoecf-select-multiple">
-									<option>-- All tags --</option>
-
+									
 									<?php  
 									$select = 'selected';
 									foreach ($pro_tags as $tkey => $tval) {
