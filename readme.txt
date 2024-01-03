@@ -7,6 +7,7 @@ Requires at least: 3.0.1
 Tested up to: 6.4.2
 WC tested up to: 8.4.0
 Stable tag: 3.1
+
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically .
 
 You will have the flexibility to display enquiry button for particular product and hide add to cart button on both product information page and product page. 
