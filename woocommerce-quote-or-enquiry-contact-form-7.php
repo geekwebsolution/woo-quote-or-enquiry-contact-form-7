@@ -131,18 +131,27 @@ function wqoecf_quote_or_enquiry_contact_form_page_setting() {
 
 function wqoecf_show_enquiry_button( $product_id ) {
 
+	$allow_category = $product_categories = $product_tag = "";
 	$_product = wc_get_product( $product_id );
 
 	$wqoecf_show_enquiry_button = false;
 	$options = wqoecf_quote_enquiry_options();
 
 	$disable_form = get_option_quote_wqoecf_disable_form($product_id);
+
+	if(isset($options['allow_category']))		$allow_category = $options['allow_category'];
+	if(isset($options['product_categories']))		$product_categories = $options['product_categories'];
+	if(isset($options['product_tag']))		$product_tag = $options['product_tag'];
 	
-	if($disable_form!='yes' && $options['allow_category'] != 'on' && !empty($_product)) {
+	if (empty($product_categories) && empty($product_tag)) {
+		$allow_category = '';
+	}
+
+	if($disable_form!='yes' && $allow_category != 'on' && !empty($_product)) {
 		$wqoecf_show_enquiry_button = true;
 	}
 
-	if($disable_form!='yes' && $options['allow_category'] == 'on' && !empty($_product) && ((!empty($options['product_categories']) && has_term( $options['product_categories'], 'product_cat', $product_id )) || (!empty($options['product_tag']) && has_term( $options['product_tag'], 'product_tag', $product_id) ))) {
+	if($disable_form!='yes' && $allow_category == 'on' && !empty($_product) && ((!empty($product_categories) && has_term( $product_categories, 'product_cat', $product_id )) || (!empty($product_tag) && has_term( $product_tag, 'product_tag', $product_id) ))) {
 		$wqoecf_show_enquiry_button = true;
 	}
 
@@ -292,6 +301,8 @@ add_action("wp_footer","wqoecf_quote_enquiry_script");
 
 function wqoecf_quote_enquiry_script()
 {
+	$contactform = $form_title = '';
+
 	$options	= wqoecf_quote_enquiry_options();
 	$form_title		= "Product Enquiry";
 
