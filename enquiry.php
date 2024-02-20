@@ -7,7 +7,7 @@ function wqoecf_quote_or_enquiry_disable_option() {
 	array( 
 		'id'            => '_wqoecf_disable_form',
 		'wrapper_class' => 'wqoecf_enquiry', 		
-		'label'         => __('Disable Enquiry Form?', 'woocommerce' ), 
+		'label'         => __('Disable Enquiry Form?', 'woocommerce-quote-or-enquiry-contact-form-7' ), 
 		'value'=>$wqoecf_disable_form_value
 		)
 	);	

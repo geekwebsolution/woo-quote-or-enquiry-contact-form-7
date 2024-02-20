@@ -99,7 +99,7 @@ div.wqoecf-pop-up-box p.wqoecf_form_title {
     border-bottom-color: #289dcc;
 }
 
-.woocommerce a.wqoecf_enquiry_button {
+a.wqoecf_enquiry_button {
     background-color: #289dcc;
     color: #fff !important;
     white-space: nowrap;
@@ -110,12 +110,12 @@ div.wqoecf-pop-up-box p.wqoecf_form_title {
     box-shadow: none;
 }
 
-.woocommerce a.wqoecf_shop_page {
+a.wqoecf_shop_page {
     display: table;
     margin: 5px auto;
 }
 
-.woocommerce a.wqoecf_enquiry_button:hover {
+a.wqoecf_enquiry_button:hover {
     box-shadow: none;
 }
 

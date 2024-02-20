@@ -10,10 +10,10 @@ if (isset($_POST['wqoecf_add_form'])) {
 	if (isset($_POST['wqoecf-allow-user']))  			$wqoecf_allow_user 			= sanitize_text_field($_POST['wqoecf-allow-user']);	
 	if (isset($_POST['wqoecf-product-single-page'])) 	$wqoecf_product_single_page = sanitize_text_field($_POST['wqoecf-product-single-page']);
 	if (isset($_POST['wqoecf-product-list-page']))  	$wqoecf_product_list_page 	= sanitize_text_field($_POST['wqoecf-product-list-page']);
-	if (isset($_POST['wqoecf-allow-category']))  	$wqoecf_allow_category 	= sanitize_text_field($_POST['wqoecf-allow-category']);
+	if (isset($_POST['wqoecf-allow-category']))  		$wqoecf_allow_category 		= sanitize_text_field($_POST['wqoecf-allow-category']);
 	if (isset($_POST['wqoecf_forms']))  				$wqoecf_select_form 		= sanitize_text_field($_POST['wqoecf_forms']);
-	if (isset($_POST['wqoecf-pro-categories']))  				$wqoecf_pro_categories 		= $_POST['wqoecf-pro-categories'];
-	if (isset($_POST['wqoecf-products-tags']))  				$wqoecf_product_tag 		= $_POST['wqoecf-products-tags'];
+	if (isset($_POST['wqoecf-pro-categories']))  		$wqoecf_pro_categories 		= $_POST['wqoecf-pro-categories'];
+	if (isset($_POST['wqoecf-products-tags']))  		$wqoecf_product_tag 		= $_POST['wqoecf-products-tags'];
 	if (isset($_POST['wqoecf_btncolor']))  				$wqoecf_color 				= sanitize_text_field($_POST['wqoecf_btncolor']);
 	if (isset($_POST['wqoecf_btntext']))  				$wqoecf_text 				= sanitize_text_field($_POST['wqoecf_btntext']);
 	if (isset($_POST['wqoecf_title']))  				$form_title 				= sanitize_text_field($_POST['wqoecf_title']);
@@ -22,9 +22,9 @@ if (isset($_POST['wqoecf_add_form'])) {
 	$options['allow_user'] 			= $wqoecf_allow_user;
 	$options['product_single_page']	= $wqoecf_product_single_page;
 	$options['product_list_page'] 	= $wqoecf_product_list_page;
-	$options['allow_category'] 	= $wqoecf_allow_category;
+	$options['allow_category'] 		= $wqoecf_allow_category;
 	$options['product_categories'] 	= $wqoecf_pro_categories;
-	$options['product_tag'] 	= $wqoecf_product_tag;
+	$options['product_tag'] 		= $wqoecf_product_tag;
 	$options['contact_form7']		= $wqoecf_select_form;
 	$options['button_color'] 		= $wqoecf_color;
 	$options['button_text'] 		= $wqoecf_text;
@@ -43,8 +43,8 @@ if (isset($_POST['wqoecf_add_form'])) {
 		}
 	}
 }
-$options_db 	=  wqoecf_quote_enquiry_options();
 
+$options_db 	=  wqoecf_quote_enquiry_options();
 $status 		= "";
 $contactform	= "";
 $color 			= "";
@@ -53,7 +53,7 @@ $form_title		= "Product Enquiry";
 $allow_user 	= '';
 $single_page 	= '';
 $list_page 		= '';
-$allow_category 		= '';
+$allow_category = '';
 $pro_categories	= array();
 $get_product_tags	= array();
 
@@ -90,7 +90,6 @@ if (isset($options_db['button_text'])) {
 if (isset($options_db['wqoecf_form_title'])) {
 	$form_title = $options_db['wqoecf_form_title'];
 }
-
 ?>
 
 <div class="wqoecf-box">
@@ -105,14 +104,12 @@ if (isset($options_db['wqoecf_form_title'])) {
 	if (isset($validation)) {
 		echo $validation;
 	}
-	
 	?>
 
 	<div class="wqoecf-main-box">
 		<div class="wqoecf-title-sec">
-			<h1 class="wqoecf-title">WooCommerce Quote or Enquiry Contact Form 7</h1>
+			<h1 class="wqoecf-title"><?php echo esc_html__('WooCommerce Quote or Enquiry Contact Form 7','woocommerce-quote-or-enquiry-contact-form-7'); ?></h1>
 		</div>
-
 
 		<div class='wqoecf_inner'>
 
@@ -121,11 +118,8 @@ if (isset($options_db['wqoecf_form_title'])) {
 				<table class="form-table">
 
 					<tbody>
-
 						<tr valign="top">
-
-							<th scope="row">Status</th>
-
+							<th scope="row"><?php echo esc_html__('Status','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
 								<label class="wqoecf-switch wqoecf-switch-quote_status">
 									<input type="checkbox" id="wqoecf-status" name="wqoecf_status" value="on" <?php if ($status == 'on') { echo "checked"; } ?>>
@@ -135,66 +129,60 @@ if (isset($options_db['wqoecf_form_title'])) {
 						</tr>
 
 						<tr valign="top">
-
-							<th scope="row">Allow Guest User</th>
+							<th scope="row"><?php echo esc_html__('Allow Guest User','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
-
 								<label class="wqoecf-switch wqoecf-switch-quote_status">
 									<input type="checkbox" id="wqoecf-allow-user" name="wqoecf-allow-user" value="on" <?php if ($allow_user == 'on') { echo "checked"; } ?>>
 									<span class="wqoecf-slider wqoecf-round"></span>
 								</label>
 
-								<span class="tooltip-msg">if Enable it will be guest user to get Enquiry without registration.</span>
+								<span class="tooltip-msg"><?php echo esc_html__('if Enable it will be guest user to get Enquiry without registration.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 						<tr valign="top">
 
-							<th scope="row">Product Single Page</th>
+							<th scope="row"><?php echo esc_html__('Product Single Page','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 
 							<td>
 								<label class="wqoecf-switch wqoecf-switch-quote_status">
 									<input type="checkbox" id="wqoecf-product-single-page" name="wqoecf-product-single-page" value="on" <?php if ($single_page == 'on') { echo "checked"; } ?>>
 									<span class="wqoecf-slider wqoecf-round"></span>
 								</label>
-								<span class="tooltip-msg">if Enable Enquiry Button will be Display on Product Single Page.</span>
+								<span class="tooltip-msg"><?php echo esc_html__('if Enable Enquiry Button will be Display on Product Single Page.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 						<tr valign="top">
 
-							<th scope="row">Product List Page</th>
+							<th scope="row"><?php echo esc_html__('Product List Page','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 
 							<td>
 								<label class="wqoecf-switch wqoecf-switch-quote_status">
 									<input type="checkbox" id="wqoecf-product-list-page" name="wqoecf-product-list-page" value="on" <?php if ($list_page == 'on') { echo "checked"; } ?>>
 									<span class="wqoecf-slider wqoecf-round"></span>
 								</label>
-								<span class="tooltip-msg">if Enable Enquiry Button will be Display on Product List Page.</span>
+								<span class="tooltip-msg"><?php echo esc_html__('if Enable Enquiry Button will be Display on Product List Page.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 
 						<tr valign="top">
 
-							<th scope="row">Allow Specific Product</th>
+							<th scope="row"><?php echo esc_html__('Allow Specific Product','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 
 							<td>
 								<label class="wqoecf-switch wqoecf-switch-quote_status">
 									<input type="checkbox" id="wqoecf-allow-category" name="wqoecf-allow-category" value="on" <?php if ($allow_category == 'on') { echo "checked"; } ?>>
 									<span class="wqoecf-slider wqoecf-round"></span>
 								</label>
-								<span class="tooltip-msg">if Enable Enquiry Button will be Display on selected categories and tags.</span>
+								<span class="tooltip-msg"><?php echo esc_html__('if Enable Enquiry Button will be Display on selected categories and tags.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 
 						<?php $dis_cls = ($allow_category == 'on') ? 'wqoecf-show-dropdown' : ''; ?>
 
 						<tr valign="top" class="wqoecf-product-cate-cls <?php echo $dis_cls; ?>">
-
-							<th scope="row">Select Product Categories</th>
-
-							<td>
-								
+							<th scope="row"><?php echo esc_html__('Select Product Categories','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
+							<td>								
 								<?php
-
 								$categories = get_terms(
 									array(
 										'taxonomy'   => 'product_cat',
@@ -202,30 +190,22 @@ if (isset($options_db['wqoecf_form_title'])) {
 										'hide_empty' => true,
 									)
 								);
-
 								?>
 
 								<select multiple name="wqoecf-pro-categories[]" id="wqoecf-pro-categories" class="wqoecf-select-multiple">
-									
-									<?php  
+									<?php
 									$select = 'selected';
 									foreach ($categories as $key => $value) {
-
 										echo '<option value="'.$value->slug.'" " '.(!empty($pro_categories) && in_array($value->slug, $pro_categories) ? "$select" : "").' ">'.$value->name.'</option>';
-									}
-									?>
+									} ?>
 								</select>
 							</td>
 						</tr>
 
 						<tr valign="top" class="wqoecf-product-cate-cls <?php echo $dis_cls; ?>">
-
-							<th scope="row">Select Product Tags</th>
-
-							<td>
-								
+							<th scope="row"><?php echo esc_html__('Select Product Tags','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
+							<td>								
 								<?php
-
 								$pro_tags = get_terms(
 									array(
 										'taxonomy'   => 'product_tag',
@@ -233,15 +213,11 @@ if (isset($options_db['wqoecf_form_title'])) {
 										'hide_empty' => true,
 									)
 								);
-
 								?>
-
-								<select multiple name="wqoecf-products-tags[]" id="wqoecf-products-tags" class="wqoecf-select-multiple">
-									
+								<select multiple name="wqoecf-products-tags[]" id="wqoecf-products-tags" class="wqoecf-select-multiple">									
 									<?php  
 									$select = 'selected';
 									foreach ($pro_tags as $tkey => $tval) {
-
 										echo '<option value="'.$tval->slug.'" " '.(!empty($get_product_tags) && in_array($tval->slug, $get_product_tags) ? "$select" : "").' ">'.$tval->name.'</option>';
 									}
 									?>
@@ -250,9 +226,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 						</tr>
 
 						<tr class="wqoecf-contact-form-tr" valign="top">
-
-							<th scope="row">Select Contact Form 7</th>
-
+							<th scope="row"><?php echo esc_html__('Select Contact Form 7','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
 								<select name="wqoecf_forms" id="wqoecf-forms">
 									<option value="">--Select--</option>
@@ -267,33 +241,33 @@ if (isset($options_db['wqoecf_form_title'])) {
 									} ?>
 								</select>
 								<br>
-								<span class="tooltip-msg">Select Contact form 7 which is use for product enquiry.</span>
+								<span class="tooltip-msg"><?php echo esc_html__('Select Contact form 7 which is use for product enquiry.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 								<div class="wqoecf-contact-note">
 
-									<b>Note :- </b>
-									<p>create field using [text product-name] for get product name. </p>
+									<b><?php echo esc_html__('Note :-','woocommerce-quote-or-enquiry-contact-form-7'); ?> </b>
+									<p><?php echo esc_html__('create field using [text product-name] for get product name.','woocommerce-quote-or-enquiry-contact-form-7'); ?> </p>
 									<div class="wqoecf-example">
-										<p class="wqoecf-note"><b>Example:</b> </p>
-										<xmp><label> Product Name :- [text product-name] </label></xmp>
+										<p class="wqoecf-note"><b><?php echo esc_html__('Example:','woocommerce-quote-or-enquiry-contact-form-7'); ?></b> </p>
+										<xmp><label> <?php echo esc_html__('Product Name','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-name] </label></xmp>
 									</div>
 								</div>
 							</td>
 						</tr>
 
 						<tr valign="top">
-							<th scope="row">Popup Title</th>
+							<th scope="row"><?php echo esc_html__('Popup Title','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
 								<input type="text" name="wqoecf_title" class="wqoecf_btntext" value="<?php echo $form_title; ?>">
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row">Button Text</th>
+							<th scope="row"><?php echo esc_html__('Button Text','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
 								<input type="text" name="wqoecf_btntext" class="wqoecf_btntext" value="<?php echo $text; ?>">
 							</td>
 						</tr>
 						<tr valign="top">
-							<th scope="row">Button Color</th>
+							<th scope="row"><?php echo esc_html__('Button Color','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
 							<td>
 								<input type="text" name="wqoecf_btncolor" class="wqoecf_colorpicker" value="<?php echo $color; ?>">
 							</td>
