@@ -3,14 +3,15 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.1
-WC tested up to: 8.4.0
+Version: 3.2
+WC tested up to: 8.6.0
 Author URI: https://geekcodelab.com/
+Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",3.1);
+define("WQOECF_BUILD",3.2);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
@@ -43,7 +44,7 @@ if ( ! function_exists( 'wqoecf_install_require_plugins_admin_notice' ) ) {
 				<p>
 					<?php
 					// translators: %s is the plugin name.
-					echo esc_html( sprintf( __( '%s is enabled but not effective. It requires both two plugins WooCommerce and Contact Form 7 in order to work.' ), 'WooCommerce Quote or Enquiry Contact Form 7' ) );
+					echo esc_html__( sprintf( '%s is enabled but not effective. It requires both two plugins WooCommerce and Contact Form 7 in order to work.', 'WooCommerce Quote or Enquiry Contact Form 7' ), 'woocommerce-quote-or-enquiry-contact-form-7' );
 					?>
 				</p>
 			</div>
@@ -75,10 +76,10 @@ add_action( 'wp_default_color_text_options', 'wqoecf_default_color_text_options'
 $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'wqoecf_plugin_add_settings_link');
 function wqoecf_plugin_add_settings_link( $links ) { 
-	$support_link = '<a href="https://geekcodelab.com/contact/"  target="_blank" >' . __( 'Support' ) . '</a>'; 
+	$support_link = '<a href="https://geekcodelab.com/contact/"  target="_blank" >' . __( 'Support', 'woocommerce-quote-or-enquiry-contact-form-7' ) . '</a>'; 
 	array_unshift( $links, $support_link );	
 
-	$settings_link = '<a href="admin.php?page=wqoecf-quote-or-enquiry-contact-form">' . __( 'Settings' ) . '</a>'; 	
+	$settings_link = '<a href="admin.php?page=wqoecf-quote-or-enquiry-contact-form">' . __( 'Settings', 'woocommerce-quote-or-enquiry-contact-form-7' ) . '</a>'; 	
 	array_unshift( $links, $settings_link );	
 
 	return $links;	
@@ -101,9 +102,9 @@ function wqoecf_include_front_script() {
 /**
  * Register admin scripts
  */
-add_action('admin_print_styles', 'wqoecf_admin_styles');
-function wqoecf_admin_styles() {
-	if( is_admin() ) {
+add_action('admin_enqueue_scripts', 'wqoecf_admin_styles');
+function wqoecf_admin_styles( $hook ) {
+	if( is_admin() && $hook == 'woocommerce_page_wqoecf-quote-or-enquiry-contact-form' ) {
 		$css=WQOECF_PLUGIN_URL."/assets/css/wqoecf_admin_style.css";	
 		wp_enqueue_style('wqoecf-admin-style.css', $css, array(), WQOECF_BUILD);
 		wp_enqueue_style("wqoecf-admin-woo-quote-select-style", WQOECF_PLUGIN_URL."/assets/css/select2.min.css", array(), WQOECF_BUILD);
@@ -129,6 +130,9 @@ function wqoecf_quote_or_enquiry_contact_form_page_setting() {
 	include( WQOECF_PLUGIN_DIR_PATH . 'options.php' );	
 }
 
+/**
+ * Check if show enquries button is enable
+ */
 function wqoecf_show_enquiry_button( $product_id ) {
 
 	$allow_category = $product_categories = $product_tag = "";
@@ -162,6 +166,9 @@ function wqoecf_show_enquiry_button( $product_id ) {
 	return false;
 }
 
+/**
+ * Allow enquiry to user
+ */
 function wqoecf_allow_enquiry_to_user() {
 
 	$single_page = $allow_user = "";
@@ -184,6 +191,9 @@ function wqoecf_allow_enquiry_to_user() {
 	return false;
 }
 
+/**
+ * Add enquiry button to loop and single product
+ */
 function wqoecf_main() {
 	
 	$options =  wqoecf_quote_enquiry_options();
@@ -241,12 +251,15 @@ function wqoecf_main() {
 		
 		if(wqoecf_allow_enquiry_to_user()) {
 			add_action( 'woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30 );
-			add_action('wp','wqoecf_single_page_remove_add_cart');
+			add_action( 'wp', 'wqoecf_single_page_remove_add_cart');
 		}
 	}	
 }
-
 add_action("init","wqoecf_main");
+
+/**
+ * Shop page enquiry button
+ */
 function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 	global $post;
 
@@ -267,6 +280,9 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
     return $button;
 }
 
+/**
+ * Product single page enquiry button
+ */
 function wqoecf_single_page_enquiry_button(){
 
 	$product_id = wc_get_product()->get_id();
@@ -286,19 +302,23 @@ function wqoecf_single_page_enquiry_button(){
 		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
 	}
 } 
+
+/**
+ * Single product remove add to cart button
+ */
 function wqoecf_single_page_remove_add_cart() {
 	$product_id = get_the_ID(); // the ID of the product to check
 	$_product = wc_get_product( $product_id );
 	if(wqoecf_show_enquiry_button($product_id)) {
-			remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 		remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
 	}
 }
 
-
-add_action("wp_footer","wqoecf_quote_enquiry_script");
-
-
+/**
+ * Enquiry popup html
+ */
+add_action( "wp_footer", "wqoecf_quote_enquiry_script" );
 function wqoecf_quote_enquiry_script()
 {
 	$contactform = $form_title = '';
@@ -319,7 +339,10 @@ function wqoecf_quote_enquiry_script()
 	</div>
 	<?php
 }
-  
+
+/**
+ * Enquiry button header additional style
+ */
 add_action('wp_head','wqoecf_set_button_color');
 function wqoecf_set_button_color(){?>
 	<style>
@@ -345,17 +368,12 @@ function wqoecf_req_button_quote($atts, $content = null) {
 		wp_enqueue_style( 'wqoecf-front-woo-quote' );
 		wp_enqueue_script( 'wqoecf-front-woo-quote' );
 	}
-
-    $args = shortcode_atts( array( 'product' => false ), $atts );
-
     ob_start();
-
-    wqoecf_render_button( $args['product'], $args );
-
+    wqoecf_render_button( $args['product'] );
     return ob_get_clean();
 }
 
-function wqoecf_render_button( $product_id = false, $args = array() ) {
+function wqoecf_render_button( $product_id = false ) {
 	$btntext = '';
 	$options= wqoecf_quote_enquiry_options();
     if ( ! $product_id ) {
