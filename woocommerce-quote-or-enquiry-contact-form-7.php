@@ -3,15 +3,15 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.2
-WC tested up to: 8.6.0
+Version: 3.3
+WC tested up to: 8.6.1
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD",3.2);
+define("WQOECF_BUILD",3.3);
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
@@ -274,7 +274,8 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 		if(isset($options['button_text']))		$btntext = $options['button_text'];
 	
 		$pro_title = get_the_title($product->get_id());
-		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+		$product_sku = $product->get_sku();
+		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="' .$product->get_id(). '" data-product-title="'.$pro_title.'" data-product-sku="' .$product_sku. '"  >' . $btntext . '</a>';
 	}
 
     return $button;
@@ -286,6 +287,7 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 function wqoecf_single_page_enquiry_button(){
 
 	$product_id = wc_get_product()->get_id();
+	
 
 	if(wqoecf_show_enquiry_button($product_id)) {
 		if ( ! wp_script_is( 'enqueued', 'wqoecf-front-woo-quote' ) ) {
@@ -298,8 +300,9 @@ function wqoecf_single_page_enquiry_button(){
 		if(isset($options['button_text']))		$btntext = $options['button_text'];
 	
 		$pro_title = get_the_title($product_id);
+		$product_sku = wc_get_product()->get_sku();
 		
-		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+		echo '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="' .$product_id. '" data-product-title="'.$pro_title.'" data-product-sku="' .$product_sku. '" >' . $btntext . '</a>';
 	}
 } 
 
@@ -389,6 +392,7 @@ function wqoecf_render_button( $product_id = false ) {
 
 	if($product) {
 		$product_id = $product->get_id();
+		$product_sku = $product->get_sku();
 
 		$template_button = 'add-to-quote.php';
 		$wcloop_name = ! is_null( $woocommerce_loop ) && ! is_null( $woocommerce_loop['name'] ) ? $woocommerce_loop['name'] : '';
@@ -399,13 +403,11 @@ function wqoecf_render_button( $product_id = false ) {
 			$btntext = $options['button_text'];
 		}
 
-		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)" data-product-title="'.$pro_title.'"  >' . $btntext . '</a>';
+		$button = '<a class="wqoecf_enquiry_button" href="javascript:void(0)" data-product-id="' .$product_id. '" data-product-title="'.$pro_title.'" data-product-sku="' .$product_sku. '" >' . $btntext . '</a>';
 
 		echo $button;
 	}
 }
-
-
 
 /**
  * Added HPOS support for woocommerce
