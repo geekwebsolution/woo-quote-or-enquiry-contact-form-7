@@ -24,7 +24,12 @@ You will have the flexibility to display enquiry button for particular product a
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you option to set a contact form 7 forms as enquiry form with product name, id and sku.
 
-To pass product details in contact form use field name like product-name, product-id and product-sku. For example: add [text product-name] for product name in contact form.
+To pass product details in contact form use field name like product-name, product-id and product-sku. 
+
+Use fields like below in contact form 7:
+* For Product ID: use [text product-id]
+* For Product Name: use [text product-name]
+* For Product SKU: use [text product-sku]
 
 == DYNPMIC ENQUIRY BUTTON COLOR ==
 

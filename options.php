@@ -249,6 +249,8 @@ if (isset($options_db['wqoecf_form_title'])) {
 									<div class="wqoecf-example">
 										<p class="wqoecf-note"><b><?php echo esc_html__('Example :-','woocommerce-quote-or-enquiry-contact-form-7'); ?></b> </p>
 										<xmp><label> <?php echo esc_html__('Product Name','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-name] </label></xmp>
+										<xmp><label> <?php echo esc_html__('Product ID','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-id] </label></xmp>
+										<xmp><label> <?php echo esc_html__('Product SKU','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-sku] </label></xmp>
 									</div>
 								</div>
 							</td>
