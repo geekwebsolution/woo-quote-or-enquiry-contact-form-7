@@ -82,6 +82,7 @@ To pass product details in contact form use field name like product-name, produc
 
 = 3.3=
 ** Product details can be passed in contact form. like product id, sku and name
+** To pass product details in contact form use field name like id, name And sku. For example: add [text product-name] in contact form.
 
 = 3.2=
 ** Fixed bugs
