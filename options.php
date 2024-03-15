@@ -237,7 +237,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 										'post_status'    => 'publish'
 									));
 									foreach ($wqoecf_get_form as $wqoecf_form) {
-										echo '<option value="' . $wqoecf_form->ID . '"' . selected($wqoecf_form->ID, $contactform, false) . '>' . $wqoecf_form->post_title . ' (' . $wqoecf_form->ID . ')' . '</option>';
+										echo '<option value="' . $wqoecf_form->ID . '"' . selected($wqoecf_form->ID, $contactform, false) . '>' . $wqoecf_form->post_title . ' (#' . $wqoecf_form->ID . ')' . '</option>';
 									} ?>
 								</select>
 								<br>
@@ -245,10 +245,12 @@ if (isset($options_db['wqoecf_form_title'])) {
 								<div class="wqoecf-contact-note">
 
 									<b><?php echo esc_html__('Note :-','woocommerce-quote-or-enquiry-contact-form-7'); ?> </b>
-									<p><?php echo esc_html__('create field using [text product-name] for get product name.','woocommerce-quote-or-enquiry-contact-form-7'); ?> </p>
+									<p><?php echo esc_html__('You can pass product details in contact form. Use this field names in contact form: product-name, product-id and product-sku.','woocommerce-quote-or-enquiry-contact-form-7'); ?> </p>
 									<div class="wqoecf-example">
-										<p class="wqoecf-note"><b><?php echo esc_html__('Example:','woocommerce-quote-or-enquiry-contact-form-7'); ?></b> </p>
+										<p class="wqoecf-note"><b><?php echo esc_html__('Example :-','woocommerce-quote-or-enquiry-contact-form-7'); ?></b> </p>
 										<xmp><label> <?php echo esc_html__('Product Name','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-name] </label></xmp>
+										<xmp><label> <?php echo esc_html__('Product ID','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-id] </label></xmp>
+										<xmp><label> <?php echo esc_html__('Product SKU','woocommerce-quote-or-enquiry-contact-form-7'); ?> :- [text product-sku] </label></xmp>
 									</div>
 								</div>
 							</td>
