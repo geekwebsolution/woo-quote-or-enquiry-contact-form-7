@@ -2,11 +2,11 @@
 Contributors: rajkakadiya, rvadhel
 Donate link: https://paypal.me/rvadhel
 Tags:WooCommerce Quote Contact Form 7,WooCommerce Enquiry Contact Form 7, WooCommerce Contact Form 7
-Requires PHP: 5.2.4
-Requires at least: 3.0.1
-Tested up to: 6.4.3
+Requires PHP: 7.4
+Requires at least: 6.3
+Tested up to: 6.4
 WC tested up to: 8.6.1
-Stable tag: 3.3
+Stable tag: 3.4
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically.
 
@@ -26,7 +26,7 @@ WooCommerce Quote or Enquiry Contact Form 7 plugin gives you option to set a con
 
 To pass product details in contact form use field name like product-name, product-id and product-sku. 
 
-Use fields like below in contact form 7:
+**Use fields like below in contact form 7:**
 * For Product ID: use [text product-id]
 * For Product Name: use [text product-name]
 * For Product SKU: use [text product-sku]
@@ -85,8 +85,11 @@ To pass product details in contact form use field name like product-name, produc
 
 == Changelog ==
 
+= 3.4=
+** Fixed shortcode bug.
+
 = 3.3=
-** Product details can be passed in contact form. like product id, sku and name
+** Product details can be passed in contact form. like product id, sku and name.
 ** To pass product details in contact form use field name like id, name And sku. For example: add [text product-name] in contact form.
 
 = 3.2=
