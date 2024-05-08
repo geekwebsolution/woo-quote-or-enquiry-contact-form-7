@@ -96,12 +96,20 @@ input#wqoecf-product-list-page:checked+.wqoecf-slider:before {
     margin-top: 6px;
 }
 
-.notice-success,
+.wqoecf-box .notice-success,
 div.updated {
     border-left-color: #46b450;
 }
 
-.notice-error,
+.wqoecf-box .notice.notice-success {
+    margin: 15px 15px 0 0;
+}
+
+.wqoecf-box .notice.notice-error {
+    margin: 15px 15px 0 0;
+}
+
+.wqoecf-box .notice-error,
 div.error {
     border-left-color: #dc3232;
 }
@@ -131,9 +139,9 @@ div.error {
 }
 
 h1.wqoecf-title {
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 30px;
-    font-size: 30px;
+    font-size: 28px;
 }
 
 .wqoecf-main-box {

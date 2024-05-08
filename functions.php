@@ -17,14 +17,15 @@ function get_option_quote_wqoecf_disable_form($post_id){
 }
 
 // Success message
-function  success_option_msg_wqoecf($msg)
+function success_option_msg_wqoecf($msg)
 {
-	return ' <div class="notice notice-success acttf-success-msg is-dismissible"><p>'. $msg . '</p></div>';
+	$message = sprintf('<div class="notice notice-success is-dismissible"><p>%s</p></div>',esc_html($msg));
+	return $message;
 }
 
 // Error message
-function  failure_option_msg_wqoecf($msg)
+function failure_option_msg_wqoecf($msg)
 {
-	return '<div class="notice notice-error acttf-error-msg is-dismissible"><p>' . $msg . '</p></div>';
+	$message = sprintf('<div class="notice notice-error acttf-error-msg is-dismissible"><p>%s</p></div>',esc_html($msg));
+	return $message;
 }
-?>
