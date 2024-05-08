@@ -12,7 +12,10 @@ jQuery("body").on("click", ".wqoecf_enquiry_button", function () {
     jQuery("div.wqoecf-pop-up-box .wpcf7 input[name='product-id']").val(product_id);
     jQuery("div.wqoecf-pop-up-box .wpcf7 input[name='product-name']").val(product_title);
     jQuery("div.wqoecf-pop-up-box .wpcf7 input[name='product-sku']").val(product_sku);
+
+    jQuery('.wqoecf-pop-up-box div.wpcf7>form input[name="product-id"]').attr("readonly", true);
     jQuery('.wqoecf-pop-up-box div.wpcf7>form input[name="product-name"]').attr("readonly", true);
+    jQuery('.wqoecf-pop-up-box div.wpcf7>form input[name="product-sku"]').attr("readonly", true);
     loading.remove();
 
     jQuery(".wqoecf-pop-up-box").fadeIn();

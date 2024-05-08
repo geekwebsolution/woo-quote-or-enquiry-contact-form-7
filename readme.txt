@@ -4,9 +4,9 @@ Donate link: https://paypal.me/rvadhel
 Tags:WooCommerce Quote Contact Form 7,WooCommerce Enquiry Contact Form 7, WooCommerce Contact Form 7
 Requires PHP: 7.4
 Requires at least: 6.3
-Tested up to: 6.4
-WC tested up to: 8.6.1
-Stable tag: 3.4
+Tested up to: 6.5
+WC tested up to: 8.8.2
+Stable tag: 3.4.1
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically.
 
@@ -84,6 +84,8 @@ To pass product details in contact form use field name like product-name, produc
 6. Open pop-up of Product Enquiry form
 
 == Changelog ==
+= 3.4.1=
+** Fixed escape & translation bugs.
 
 = 3.4=
 ** Fixed shortcode bug.
