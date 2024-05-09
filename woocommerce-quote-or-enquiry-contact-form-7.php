@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.1
+Version: 3.4.2
 WC tested up to: 8.8.2
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
@@ -11,7 +11,7 @@ Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD","3.4.1");
+define("WQOECF_BUILD","3.4.2");
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
@@ -338,7 +338,7 @@ function wqoecf_quote_enquiry_script()
 	<div class="wqoecf-pop-up-box" style="display: none;" data-loader-path="<?php esc_attr_e(WQOECF_PLUGIN_URL); ?>/assets/images/ajax-loader.gif">
 		<button class="wqoecf_close" onclick="wqoecf_hide()"><span></span><span></span></button>
 		<div>
-			<p class="wqoecf_form_title"><?php esc_html($form_title); ?></p>
+			<p class="wqoecf_form_title"><?php esc_html_e($form_title); ?></p>
 			<?php echo do_shortcode('[contact-form-7 id="'.esc_attr($contactform).'"]'); ?>
 		</div>
 	</div>
