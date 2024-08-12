@@ -136,7 +136,7 @@ a.wqoecf_enquiry_button:hover {
     border-color: #f00;
 }
 
-a.wqoecf_enquiry_button:before {
+a.wqoecf_enquiry_button .wqoecf_eq_icon {
     content: '';
     width: 20px;
     height: 15px;
@@ -183,6 +183,25 @@ a.wqoecf_enquiry_button:before {
 
 .wqoecf_close span:last-child {
     transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.wqoecf_loading {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.wqoecf_spinner {
+    display: inline-block;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 1s linear infinite;
+    margin-right: 5px;
+    vertical-align: middle;
+    transform: translate(-50%, -50%);
 }
 
 @media (max-width:767px) {
