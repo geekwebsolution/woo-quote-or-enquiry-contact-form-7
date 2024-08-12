@@ -193,15 +193,14 @@ a.wqoecf_enquiry_button .wqoecf_eq_icon {
 
 .wqoecf_spinner {
     display: inline-block;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    animation: spin 1s linear infinite;
-    margin-right: 5px;
+    width: 15px; /* Adjust as needed */
+    height: 18px; /* Adjust as needed */
+    background-image: url('../images/ajax-loader.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 7px;
     vertical-align: middle;
-    transform: translate(-50%, -50%);
 }
 
 @media (max-width:767px) {

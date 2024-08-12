@@ -93,7 +93,7 @@ function wqoecf_plugin_add_settings_link( $links ) {
 add_action( 'wp_enqueue_scripts', 'wqoecf_include_front_script' );
 function wqoecf_include_front_script() {
 	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);  
-	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/wqoecf-front-script.js", array(), WQOECF_BUILD, true);
+	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/woo-enquiry-front-script.js", array(), WQOECF_BUILD, true);
 
 	
 	wp_enqueue_style( 'wqoecf-front-woo-quote' );
@@ -109,11 +109,13 @@ function wqoecf_admin_styles( $hook ) {
 	if( is_admin() && $hook == 'woocommerce_page_wqoecf-quote-or-enquiry-contact-form' ) {
 		$css=WQOECF_PLUGIN_URL."/assets/css/wqoecf_admin_style.css";	
 		wp_enqueue_style('wqoecf-admin-style.css', $css, array(), WQOECF_BUILD);
+		
 		wp_enqueue_style("wqoecf-admin-woo-quote-select-style", WQOECF_PLUGIN_URL."/assets/css/select2.min.css", array(), WQOECF_BUILD);
 		wp_enqueue_script("wqoecf-front-woo-quote-select-script", WQOECF_PLUGIN_URL."/assets/js/select2.min.js", array(), WQOECF_BUILD);
 		wp_enqueue_script( 'wp-color-picker' );
 		 // Add the color picker css file
         wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script("wqoecf-front-woo-quote-admin-script", WQOECF_PLUGIN_URL."/assets/js/woo-enquiry-admin-script.js", array('jquery'), WQOECF_BUILD);
 	}
 }
 
