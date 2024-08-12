@@ -3,15 +3,15 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.2
-WC tested up to: 8.8.2
+Version: 3.4.3
+WC tested up to: 9.1.4
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 */
 
 if(!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD","3.4.2");
+define("WQOECF_BUILD","3.4.3");
 
 if(!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH",plugin_dir_path(__FILE__));	
@@ -93,12 +93,12 @@ function wqoecf_plugin_add_settings_link( $links ) {
 add_action( 'wp_enqueue_scripts', 'wqoecf_include_front_script' );
 function wqoecf_include_front_script() {
 	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);  
-	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/wqoecf-front-script.js", array(), WQOECF_BUILD, true);
+	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL."/assets/js/woo-enquiry-front-script.js", array(), WQOECF_BUILD, true);
 
-	if( is_woocommerce() ) {
-		wp_enqueue_style( 'wqoecf-front-woo-quote' );
-		wp_enqueue_script( 'wqoecf-front-woo-quote' );
-	}	
+	
+	wp_enqueue_style( 'wqoecf-front-woo-quote' );
+	wp_enqueue_script( 'wqoecf-front-woo-quote' );
+	wp_localize_script( 'wqoecf-front-woo-quote', 'wqoecfObj', array('ajaxurl'=>admin_url('admin-ajax.php')) );
 }
 
 /**
@@ -109,11 +109,13 @@ function wqoecf_admin_styles( $hook ) {
 	if( is_admin() && $hook == 'woocommerce_page_wqoecf-quote-or-enquiry-contact-form' ) {
 		$css=WQOECF_PLUGIN_URL."/assets/css/wqoecf_admin_style.css";	
 		wp_enqueue_style('wqoecf-admin-style.css', $css, array(), WQOECF_BUILD);
+		
 		wp_enqueue_style("wqoecf-admin-woo-quote-select-style", WQOECF_PLUGIN_URL."/assets/css/select2.min.css", array(), WQOECF_BUILD);
 		wp_enqueue_script("wqoecf-front-woo-quote-select-script", WQOECF_PLUGIN_URL."/assets/js/select2.min.js", array(), WQOECF_BUILD);
 		wp_enqueue_script( 'wp-color-picker' );
 		 // Add the color picker css file
         wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script("wqoecf-front-woo-quote-admin-script", WQOECF_PLUGIN_URL."/assets/js/woo-enquiry-admin-script.js", array('jquery'), WQOECF_BUILD);
 	}
 }
 
@@ -277,7 +279,7 @@ function wqoecf_shop_page_enquiry_button( $button, $product  ) {
 	
 		$pro_title = get_the_title($product->get_id());
 		$product_sku = $product->get_sku();
-		$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s">%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
 	}
 
     return $button;
@@ -304,7 +306,7 @@ function wqoecf_single_page_enquiry_button(){
 		$pro_title = get_the_title($product_id);
 		$product_sku = wc_get_product()->get_sku();
 
-		printf( '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s" >%s</a>', esc_attr($product_id), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		printf( '<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s" ><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product_id), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
 	}
 } 
 
@@ -323,7 +325,8 @@ function wqoecf_single_page_remove_add_cart() {
 /**
  * Enquiry popup html
  */
-add_action( "wp_footer", "wqoecf_quote_enquiry_script" );
+add_action('wp_ajax_wqoecf_enquiry_popup','wqoecf_quote_enquiry_script');
+add_action('wp_ajax_nopriv_wqoecf_enquiry_popup', 'wqoecf_quote_enquiry_script' );
 function wqoecf_quote_enquiry_script()
 {
 	$contactform = $form_title = '';
@@ -333,9 +336,8 @@ function wqoecf_quote_enquiry_script()
 
 	if(isset($options['contact_form7']))			$contactform 	= $options['contact_form7'];	
 	if(isset($options['wqoecf_form_title'])) 		$form_title 	= $options['wqoecf_form_title'];
-	
 	?>
-	<div class="wqoecf-pop-up-box" style="display: none;" data-loader-path="<?php esc_attr_e(WQOECF_PLUGIN_URL); ?>/assets/images/ajax-loader.gif">
+	<div class="wqoecf-pop-up-box" style="display: none;">
 		<button class="wqoecf_close" onclick="wqoecf_hide()"><span></span><span></span></button>
 		<div>
 			<p class="wqoecf_form_title"><?php esc_html_e($form_title); ?></p>
@@ -384,7 +386,7 @@ function wqoecf_render_button( $product_id = false ) {
 	$options= wqoecf_quote_enquiry_options();
     if ( ! $product_id ) {
         global $product, $post;
-        if( !$product instanceof WC_Product && $post instanceof WP_Post){
+        if( !$product instanceof WC_Product && $post instanceof WP_Post) {
             $product = wc_get_product( $post->ID);
         }
     } else {
@@ -406,7 +408,7 @@ function wqoecf_render_button( $product_id = false ) {
 			$btntext = $options['button_text'];
 		}
 
-		$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)" data-product-id="%s" data-product-title="%s" data-product-sku="%s" >%s</a>', esc_attr($product_id), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)" data-product-id="%s" data-product-title="%s" data-product-sku="%s" ><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product_id), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
 
 		_e($button);
 	}

@@ -5,8 +5,8 @@ Tags:WooCommerce Quote Contact Form 7,WooCommerce Enquiry Contact Form 7, WooCom
 Requires PHP: 7.4
 Requires at least: 6.3
 Tested up to: 6.5
-WC tested up to: 8.8.2
-Stable tag: 3.4.2
+WC tested up to: 9.1.4
+Stable tag: 3.4.3
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically.
 
@@ -84,70 +84,73 @@ To pass product details in contact form use field name like product-name, produc
 6. Open pop-up of Product Enquiry form
 
 == Changelog ==
-= 3.4.2=
+= 3.4.3 =
+** Loader appears before popup open on enquiry button
+
+= 3.4.2 =
 ** Fixed popup title bug
 
-= 3.4.1=
+= 3.4.1 =
 ** Fixed escape & translation bugs.
 
-= 3.4=
+= 3.4 =
 ** Fixed shortcode bug.
 
-= 3.3=
+= 3.3 =
 ** Product details can be passed in contact form. like product id, sku and name.
 ** To pass product details in contact form use field name like id, name And sku. For example: add [text product-name] in contact form.
 
-= 3.2=
+= 3.2 =
 ** Fixed bugs
 
-= 3.1=
+= 3.1 =
 ** Fix bug
 
-= 3.0=
+= 3.0 =
 ** Added a option to include 'enquiry' button for specific category and tag of products.
 
-= 2.9=
+= 2.9 =
 ** Added shortcode to print enquiry button [wqoecf_button_quote]
 
-= 2.8=
+= 2.8 =
 ** Added woocommerce HPOS support.
 ** Tested up to 6.4 wordpress version.
 
-= 2.7=
+= 2.7 =
 ** Fix bug
 
-= 2.6=
+= 2.6 =
 ** checked with WordPress version 6.2.2
 
-= 2.5=
+= 2.5 =
 ** checked with WordPress version 6.0.1
 
-= 2.4=
+= 2.4 =
 ** checked with contact form 7 latest version
 
-= 2.3=
+= 2.3 =
 ** Added option to dynamic popup title
 
-= 2.2=
+= 2.2 =
 ** Fixed modal scroll issue
 ** Tested up to wp version 5.9
 
-= 2.1=
+= 2.1 =
 ** Disable auto close popup after submit form
 
-= 2.0=
+= 2.0 =
 ** Fix bug
 
-= 1.9=
+= 1.9 =
 ** Fix bug
 
-= 1.8=
+= 1.8 =
 ** Fix bug
 
-= 1.7=
+= 1.7 =
 ** Fixed css issue
 
-= 1.6=
+= 1.6 =
 ** Show product variation
 
 = 1.5 =

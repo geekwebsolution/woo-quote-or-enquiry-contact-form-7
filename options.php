@@ -1,9 +1,7 @@
 <?php
-
 if (!defined('ABSPATH')) exit;
 
-if (isset($_POST['wqoecf_add_form'])) {
-
+if (isset($_POST['wqoecf_wpnonce'])) {
 	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
 
 	if (isset($_POST['wqoecf_status'])) 				$wqoecf_status 				= sanitize_text_field($_POST['wqoecf_status']);
@@ -112,8 +110,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 
 		<div class='wqoecf_inner'>
 
-			<form method="post" name="enquiry_pro" id="enquiry_pro" enctype="multipart/form-data">
-
+			<form method="post" name="wqoecf_enquiry_pro" id="wqoecf_enquiry_pro" enctype="multipart/form-data">
 				<table class="form-table">
 
 					<tbody>

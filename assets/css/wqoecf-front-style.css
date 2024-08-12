@@ -136,7 +136,7 @@ a.wqoecf_enquiry_button:hover {
     border-color: #f00;
 }
 
-a.wqoecf_enquiry_button:before {
+a.wqoecf_enquiry_button .wqoecf_eq_icon {
     content: '';
     width: 20px;
     height: 15px;
@@ -183,6 +183,24 @@ a.wqoecf_enquiry_button:before {
 
 .wqoecf_close span:last-child {
     transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.wqoecf_loading {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.wqoecf_spinner {
+    display: inline-block;
+    width: 15px; /* Adjust as needed */
+    height: 18px; /* Adjust as needed */
+    background-image: url('../images/ajax-loader.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 7px;
+    vertical-align: middle;
 }
 
 @media (max-width:767px) {
