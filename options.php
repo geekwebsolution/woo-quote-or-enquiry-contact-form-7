@@ -149,7 +149,7 @@ if (isset($options_db['wqoecf_form_title'])) {
 									<span class="wqoecf-slider wqoecf-round"></span>
 								</label>
 
-								<span class="tooltip-msg"><?php esc_html_e('if Enable it will be remove the add to cart button from single product page.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
+								<span class="tooltip-msg"><?php esc_html_e('if Enable it will be remove the add to cart button from entire site.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 						<tr valign="top">

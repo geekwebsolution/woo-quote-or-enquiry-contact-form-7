@@ -278,7 +278,12 @@ function wqoecf_shop_page_enquiry_button($button, $product) {
 
 		$pro_title = get_the_title($product->get_id());
 		$product_sku = $product->get_sku();
-		$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		$options = wqoecf_quote_enquiry_options();
+		if ($options['wqoecf_hide_cart_btn'] == 'on') {
+			$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		} else {
+			$button .= sprintf('<div class="wqoecf_enquiry_button_wrapper"><a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a></div>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
+		}
 	}
 
 	return $button;
