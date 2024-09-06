@@ -2,10 +2,11 @@
 if (!defined('ABSPATH')) exit;
 
 if (isset($_POST['wqoecf_wpnonce'])) {
-	$wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
+	$wqoecf_hide_cart_btn = $wqoecf_allow_user 	= $wqoecf_product_single_page =	$wqoecf_product_list_page = $wqoecf_allow_category = $wqoecf_pro_categories = $wqoecf_product_tag = $wqoecf_status 	= $wqoecf_select_form = $wqoecf_color = $wqoecf_text = $form_title = "";
 
 	if (isset($_POST['wqoecf_status'])) 				$wqoecf_status 				= sanitize_text_field($_POST['wqoecf_status']);
 	if (isset($_POST['wqoecf-allow-user']))  			$wqoecf_allow_user 			= sanitize_text_field($_POST['wqoecf-allow-user']);	
+	if (isset($_POST['wqoecf-hide-cart-btn']))  		$wqoecf_hide_cart_btn 		= sanitize_text_field($_POST['wqoecf-hide-cart-btn']);	
 	if (isset($_POST['wqoecf-product-single-page'])) 	$wqoecf_product_single_page = sanitize_text_field($_POST['wqoecf-product-single-page']);
 	if (isset($_POST['wqoecf-product-list-page']))  	$wqoecf_product_list_page 	= sanitize_text_field($_POST['wqoecf-product-list-page']);
 	if (isset($_POST['wqoecf-allow-category']))  		$wqoecf_allow_category 		= sanitize_text_field($_POST['wqoecf-allow-category']);
@@ -18,6 +19,7 @@ if (isset($_POST['wqoecf_wpnonce'])) {
 	
 	$options['status'] 				= $wqoecf_status;
 	$options['allow_user'] 			= $wqoecf_allow_user;
+	$options['wqoecf_hide_cart_btn']= $wqoecf_hide_cart_btn;
 	$options['product_single_page']	= $wqoecf_product_single_page;
 	$options['product_list_page'] 	= $wqoecf_product_list_page;
 	$options['allow_category'] 		= $wqoecf_allow_category;
@@ -49,6 +51,7 @@ $color 			= "";
 $text 			= __("Enquiry","woocommerce-quote-or-enquiry-contact-form-7");
 $form_title		= __("Product Enquiry","woocommerce-quote-or-enquiry-contact-form-7");
 $allow_user 	= '';
+$wqoecf_hide_cart_btn 	= 'on';
 $single_page 	= '';
 $list_page 		= '';
 $allow_category = '';
@@ -60,6 +63,9 @@ if (isset($options_db['status'])) {
 }
 if (isset($options_db['allow_user'])) {
 	$allow_user = $options_db['allow_user'];
+}
+if (isset($options_db['wqoecf_hide_cart_btn'])) {
+	$wqoecf_hide_cart_btn = $options_db['wqoecf_hide_cart_btn'];
 }
 if (isset($options_db['product_single_page'])) {
 	$single_page = $options_db['product_single_page'];
@@ -133,6 +139,17 @@ if (isset($options_db['wqoecf_form_title'])) {
 								</label>
 
 								<span class="tooltip-msg"><?php esc_html_e('if Enable it will be guest user to get Enquiry without registration.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row"><?php esc_html_e('Hide add to cart button','woocommerce-quote-or-enquiry-contact-form-7'); ?></th>
+							<td>
+								<label class="wqoecf-switch wqoecf-switch-quote_status">
+									<input type="checkbox" id="wqoecf-hide-cart-btn" name="wqoecf-hide-cart-btn" value="on" <?php if ($wqoecf_hide_cart_btn == 'on') { esc_attr_e("checked"); } ?>>
+									<span class="wqoecf-slider wqoecf-round"></span>
+								</label>
+
+								<span class="tooltip-msg"><?php esc_html_e('if Enable it will be remove the add to cart button from entire site.','woocommerce-quote-or-enquiry-contact-form-7'); ?></span>
 							</td>
 						</tr>
 						<tr valign="top">
