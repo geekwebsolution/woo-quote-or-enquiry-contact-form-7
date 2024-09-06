@@ -50,6 +50,7 @@ Note: This plugins is supported for only simple product
 * Options to set up enquiry button text as per your requirement
 * Include "enquiry" button to specific product category and tags
 * You can pass product details like product id, sku and name in contact form 7
+* Option to hide/show add to cart button for enquiry product
 * Manually have option to set product enquiry button for particular product 
 * Manually disable enquiry button for specific product
 * Manually disable enquiry button for Guest user
