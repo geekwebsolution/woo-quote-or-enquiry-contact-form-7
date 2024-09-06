@@ -342,6 +342,7 @@ function wqoecf_quote_enquiry_script() {
 
 	if (isset($options['contact_form7']))			$contactform 	= $options['contact_form7'];
 	if (isset($options['wqoecf_form_title'])) 		$form_title 	= $options['wqoecf_form_title'];
+	ob_start();
 	?>
 	<div class="wqoecf-pop-up-box" style="display: none;">
 		<button class="wqoecf_close" onclick="wqoecf_hide()"><span></span><span></span></button>
@@ -351,6 +352,8 @@ function wqoecf_quote_enquiry_script() {
 		</div>
 	</div>
 <?php
+	$html = ob_get_clean();
+	wp_send_json_success(array('html' => $html));
 }
 
 /**
