@@ -3,15 +3,15 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.4
-WC tested up to: 9.1.4
+Version: 3.4.5
+WC tested up to: 9.3.3
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 */
 
 if (!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD", "3.4.4");
+define("WQOECF_BUILD", "3.4.5");
 
 if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -138,6 +138,8 @@ function wqoecf_quote_or_enquiry_contact_form_page_setting() {
  */
 function wqoecf_show_enquiry_button($product_id) {
 
+	if (!$product_id) return false;
+
 	$allow_category = $product_categories = $product_tag = "";
 	$_product = wc_get_product($product_id);
 
@@ -239,7 +241,7 @@ function wqoecf_main() {
 	if ($status == 'on' && !empty($contactform)) {
 		$list_page = "";
 		$options =  wqoecf_quote_enquiry_options();
-		if (isset($options['product_list_page']))		$list_page = $options['product_list_page'];
+		if (isset($options['product_list_page'])) $list_page = $options['product_list_page'];
 
 		if ($list_page == 'on') {
 			if ($allow_user != 'on') {
@@ -250,7 +252,6 @@ function wqoecf_main() {
 				add_filter('woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2);
 			}
 		}
-
 
 		if (wqoecf_allow_enquiry_to_user()) {
 			add_action('woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30);
@@ -279,7 +280,7 @@ function wqoecf_shop_page_enquiry_button($button, $product) {
 		$pro_title = get_the_title($product->get_id());
 		$product_sku = $product->get_sku();
 		$options = wqoecf_quote_enquiry_options();
-		if ($options['wqoecf_hide_cart_btn'] == 'on') {
+		if (isset($options['wqoecf_hide_cart_btn']) && !empty($options['wqoecf_hide_cart_btn']) && $options['wqoecf_hide_cart_btn'] == 'on') {
 			$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
 		} else {
 			$button .= sprintf('<div class="wqoecf_enquiry_button_wrapper"><a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a></div>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
@@ -294,8 +295,17 @@ function wqoecf_shop_page_enquiry_button($button, $product) {
  */
 function wqoecf_single_page_enquiry_button() {
 
-	$product_id = wc_get_product()->get_id();
+	// Check if the current page is product page
+	if (!is_product()) {
+		return;
+	}
+	// Get the global product object
+	global $product;
+	if (!$product) {
+		return;
+	}
 
+	$product_id = $product->get_id();
 
 	if (wqoecf_show_enquiry_button($product_id)) {
 		if (! wp_script_is('enqueued', 'wqoecf-front-woo-quote')) {
@@ -322,7 +332,7 @@ function wqoecf_single_page_remove_add_cart() {
 	$_product = wc_get_product($product_id);
 	if (wqoecf_show_enquiry_button($product_id)) {
 		$options = wqoecf_quote_enquiry_options();
-		if ($options['wqoecf_hide_cart_btn'] == 'on') {
+		if (isset($options['wqoecf_hide_cart_btn']) && !empty($options['wqoecf_hide_cart_btn']) && $options['wqoecf_hide_cart_btn'] == 'on') {
 			$product_get_type = $_product->get_type();
 			remove_action('woocommerce_' . $product_get_type . '_add_to_cart', 'woocommerce_' . $product_get_type . '_add_to_cart', 30);
 		}
