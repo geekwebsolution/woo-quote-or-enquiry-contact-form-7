@@ -9,7 +9,7 @@ Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 */
 
-if (!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) exit; 
 
 define("WQOECF_BUILD", "3.4.3");
 
@@ -279,7 +279,7 @@ function wqoecf_shop_page_enquiry_button($button, $product) {
 		$pro_title = get_the_title($product->get_id());
 		$product_sku = $product->get_sku();
 		$options = wqoecf_quote_enquiry_options();
-		if ($options['wqoecf_hide_cart_btn'] == 'on') {
+		if (!empty($options['wqoecf_hide_cart_btn']) && $options['wqoecf_hide_cart_btn'] == 'on') {
 			$button = sprintf('<a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
 		} else {
 			$button .= sprintf('<div class="wqoecf_enquiry_button_wrapper"><a class="wqoecf_enquiry_button" href="javascript:void(0)"  data-product-id="%s" data-product-title="%s" data-product-sku="%s"><span class="wqoecf_eq_icon"></span>%s</a></div>', esc_attr($product->get_id()), esc_attr($pro_title), esc_attr($product_sku), esc_attr($btntext));
@@ -293,9 +293,16 @@ function wqoecf_shop_page_enquiry_button($button, $product) {
  * Product single page enquiry button
  */
 function wqoecf_single_page_enquiry_button() {
-
-	$product_id = wc_get_product()->get_id();
-
+	//check if the current page is product page
+	if (!is_product()){
+        return;
+    }
+	// Get the global product object
+	global $product;
+	if (!$product) {
+		return;
+	}
+	$product_id = $product->get_id();
 
 	if (wqoecf_show_enquiry_button($product_id)) {
 		if (! wp_script_is('enqueued', 'wqoecf-front-woo-quote')) {
@@ -322,7 +329,7 @@ function wqoecf_single_page_remove_add_cart() {
 	$_product = wc_get_product($product_id);
 	if (wqoecf_show_enquiry_button($product_id)) {
 		$options = wqoecf_quote_enquiry_options();
-		if ($options['wqoecf_hide_cart_btn'] == 'on') {
+		if (!empty($options['wqoecf_hide_cart_btn']) && $options['wqoecf_hide_cart_btn'] == 'on') {
 			$product_get_type = $_product->get_type();
 			remove_action('woocommerce_' . $product_get_type . '_add_to_cart', 'woocommerce_' . $product_get_type . '_add_to_cart', 30);
 		}
