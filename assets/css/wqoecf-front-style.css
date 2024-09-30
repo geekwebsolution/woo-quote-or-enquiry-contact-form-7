@@ -13,7 +13,7 @@ img.wqoecf_loader {
     right: 0;
     position: fixed;
     background-color: #fff;
-    z-index: 99999999999;
+    z-index: 99;
     transform: translateY(-50%);
     border-radius: 8px;
     box-shadow: 0 0 24px 0 #000;
