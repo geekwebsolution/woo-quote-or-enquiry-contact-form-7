@@ -352,8 +352,8 @@ function wqoecf_quote_enquiry_script() {
 	if (!isset($options['product_list_page']) || !is_shop() && !is_product()) return __return_false();
 
 	if (isset($options['product_list_page'])) {
-		if ($options['product_list_page'] == '' && !is_product()) return __return_false();
-		if ($options['product_list_page'] != 'on' && !is_product())
+		if ($options['product_list_page'] == '') return __return_false();
+		if ($options['product_list_page'] != 'on')
 			if (!is_user_logged_in()) return __return_false();
 	}
 
