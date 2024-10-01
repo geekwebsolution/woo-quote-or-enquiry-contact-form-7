@@ -32,9 +32,7 @@ function wqoecf_hide() {
     jQuery.when(
         jQuery(".wqoecf-pop-up-box").fadeOut()
     ).done(function () {
-        try {
-            grecaptcha.reset();
-        } catch (e) { }
+        grecaptcha.reset();
         try {
             wpcf7.reset(document.querySelector('.wpcf7-form'));
         } catch (ev) {
