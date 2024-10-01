@@ -31,11 +31,11 @@ To pass product details in contact form use field name like product-name, produc
 * For Product Name: use [text product-name]
 * For Product SKU: use [text product-sku]
 
-== DYNAMIC ENQUIRY BUTTON COLOR ==
+== DYNPMIC ENQUIRY BUTTON COLOR ==
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you the option to set enquiry button color for all woocommerec product. 
 
-== DYNAMIC ENQUIRY BUTTON TEXT ==
+== DYNPMIC ENQUIRY BUTTON TEXT ==
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you the option to set enquiry button text as per your requirement like Send Enquiry, Enquire Now, Product Enquiry. 
 
