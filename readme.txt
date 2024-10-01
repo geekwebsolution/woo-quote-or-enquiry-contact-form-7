@@ -85,6 +85,9 @@ To pass product details in contact form use field name like product-name, produc
 6. Open pop-up of Product Enquiry form
 
 == Changelog ==
+= 3.4.7 =
+** Bug fixes
+
 = 3.4.6 =
 ** Bug fixes for google captcha issue under the popup
 
