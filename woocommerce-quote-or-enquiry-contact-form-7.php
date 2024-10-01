@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.6
+Version: 3.4.7
 WC tested up to: 9.3.3
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
@@ -11,7 +11,7 @@ Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 
 if (!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD", "3.4.6");
+define("WQOECF_BUILD", "3.4.7");
 
 if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -247,18 +247,15 @@ function wqoecf_main() {
 			if ($allow_user != 'on') {
 				if (is_user_logged_in()) {
 					add_filter('woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2);
-					add_action('wp_footer', 'wqoecf_quote_enquiry_script');
 				}
 			} else {
 				add_filter('woocommerce_loop_add_to_cart_link', 'wqoecf_shop_page_enquiry_button', 10, 2);
-				add_action('wp_footer', 'wqoecf_quote_enquiry_script');
 			}
 		}
 
 		if (wqoecf_allow_enquiry_to_user()) {
 			add_action('woocommerce_single_product_summary', 'wqoecf_single_page_enquiry_button', 30);
 			add_action('wp', 'wqoecf_single_page_remove_add_cart');
-			add_action('wp_footer', 'wqoecf_quote_enquiry_script');
 		}
 	}
 }
@@ -345,18 +342,9 @@ function wqoecf_single_page_remove_add_cart() {
 /**
  * Enquiry popup html
  */
+add_action('wp_ajax_wqoecf_enquiry_popup', 'wqoecf_quote_enquiry_script');
+add_action('wp_ajax_nopriv_wqoecf_enquiry_popup', 'wqoecf_quote_enquiry_script');
 function wqoecf_quote_enquiry_script() {
-	$product_id = get_the_ID();
-	$options =  wqoecf_quote_enquiry_options();
-
-	if (!isset($options['product_list_page']) || !is_shop() && !is_product()) return __return_false();
-
-	if (isset($options['product_list_page'])) {
-		if ($options['product_list_page'] == '') return __return_false();
-		if ($options['product_list_page'] != 'on')
-			if (!is_user_logged_in()) return __return_false();
-	}
-
 	$contactform = $form_title = '';
 
 	$options	= wqoecf_quote_enquiry_options();
@@ -374,7 +362,8 @@ function wqoecf_quote_enquiry_script() {
 		</div>
 	</div>
 <?php
-	echo ob_get_clean();
+	$html = ob_get_clean();
+	wp_send_json_success(array('html' => $html));
 }
 
 /**

@@ -6,7 +6,7 @@ Requires PHP: 7.4
 Requires at least: 6.3
 Tested up to: 6.5
 WC tested up to: 9.3.3
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 
 This Plugin provide you options to select contact form 7 from lists, options to set a contact form 7 for product enquiry form of all your woocommerce products, set enquiry button color dynamically, text for enquiry button dynamically.
 
@@ -31,11 +31,11 @@ To pass product details in contact form use field name like product-name, produc
 * For Product Name: use [text product-name]
 * For Product SKU: use [text product-sku]
 
-== DYNAMIC ENQUIRY BUTTON COLOR ==
+== DYNPMIC ENQUIRY BUTTON COLOR ==
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you the option to set enquiry button color for all woocommerec product. 
 
-== DYNAMIC ENQUIRY BUTTON TEXT ==
+== DYNPMIC ENQUIRY BUTTON TEXT ==
 
 WooCommerce Quote or Enquiry Contact Form 7 plugin gives you the option to set enquiry button text as per your requirement like Send Enquiry, Enquire Now, Product Enquiry. 
 
