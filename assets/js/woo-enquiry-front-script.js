@@ -29,15 +29,7 @@ function wqoecf_update_inputs(id, title, sku) {
 
 /** Function to hide modal */
 function wqoecf_hide() {
-    jQuery.when(
-        jQuery(".wqoecf-pop-up-box").fadeOut()
-    ).done(function () {
-        grecaptcha.reset();
-        try {
-            wpcf7.reset(document.querySelector('.wpcf7-form'));
-        } catch (ev) {
-            wpcf7.init(document.querySelector('.wpcf7-form'));
-        }
-    });
+    jQuery(".wqoecf-pop-up-box").fadeOut();
     jQuery(".wqoecf-pop-up-box .wpcf7-not-valid-tip").css("display", "none");
+    grecaptcha.reset();
 }
