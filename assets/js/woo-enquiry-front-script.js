@@ -13,7 +13,8 @@ jQuery("body").on("click", ".wqoecf_enquiry_button", function () {
         type: 'POST',
         url: wqoecfObj.ajaxurl,
         data: {
-            'action': 'wqoecf_enquiry_popup'
+            'action': 'wqoecf_enquiry_popup',
+            'product_id' : product_id
         },
         dataType: 'json',
         success: function (response) {
