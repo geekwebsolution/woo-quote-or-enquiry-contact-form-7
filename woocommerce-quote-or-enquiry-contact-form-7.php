@@ -238,7 +238,11 @@ function wqoecf_main() {
 		$get_product_tag = $options['product_tag'];
 	}
 
-	if ($status == 'on' && !empty($contactform)) {
+	$form_ids = get_all_cf7_form_ids();
+	$form_is_in_array = in_array($contactform,$form_ids);
+	
+	if ($status == 'on' && !empty($contactform) && $form_is_in_array) {
+		
 		$list_page = "";
 		$options =  wqoecf_quote_enquiry_options();
 		if (isset($options['product_list_page'])) $list_page = $options['product_list_page'];
@@ -442,3 +446,19 @@ function wqoecf_before_woocommerce_init() {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
 	}
 }
+
+
+//  retrive all contact forms id 
+function get_all_cf7_form_ids() {
+    $args = array(
+        'post_type' => 'wpcf7_contact_form',
+        'posts_per_page' => -1,
+        'fields' => 'ids', // Retrieve only post IDs
+    );
+    
+    $cf7_forms = get_posts($args);
+    
+    return $cf7_forms; // Returns an array of form IDs
+}
+
+
