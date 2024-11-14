@@ -19,9 +19,15 @@ if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 if (!defined("WQOECF_PLUGIN_URL"))
 	define("WQOECF_PLUGIN_URL", plugins_url() . '/' . basename(dirname(__FILE__)));
 
+if (!defined("WQOECF_PLUGIN_DIR"))
+	define("WQOECF_PLUGIN_DIR", plugin_basename(__DIR__));
+
+if (!defined("WQOECF_PLUGIN_BASENAME"))
+	define("WQOECF_PLUGIN_BASENAME", plugin_basename(__FILE__));
 
 require_once(WQOECF_PLUGIN_DIR_PATH . 'functions.php');
 require(WQOECF_PLUGIN_DIR_PATH . 'enquiry.php');
+require(WQOECF_PLUGIN_DIR_PATH . 'updater/updater.php');
 
 /**
  * Regisration activation
@@ -239,10 +245,10 @@ function wqoecf_main() {
 	}
 
 	$form_ids = get_all_cf7_form_ids();
-	$form_is_in_array = in_array($contactform,$form_ids);
-	
+	$form_is_in_array = in_array($contactform, $form_ids);
+
 	if ($status == 'on' && !empty($contactform) && $form_is_in_array) {
-		
+
 		$list_page = "";
 		$options =  wqoecf_quote_enquiry_options();
 		if (isset($options['product_list_page'])) $list_page = $options['product_list_page'];
@@ -450,15 +456,13 @@ function wqoecf_before_woocommerce_init() {
 
 //  retrive all contact forms id 
 function get_all_cf7_form_ids() {
-    $args = array(
-        'post_type' => 'wpcf7_contact_form',
-        'posts_per_page' => -1,
-        'fields' => 'ids', // Retrieve only post IDs
-    );
-    
-    $cf7_forms = get_posts($args);
-    
-    return $cf7_forms; // Returns an array of form IDs
+	$args = array(
+		'post_type' => 'wpcf7_contact_form',
+		'posts_per_page' => -1,
+		'fields' => 'ids', // Retrieve only post IDs
+	);
+
+	$cf7_forms = get_posts($args);
+
+	return $cf7_forms; // Returns an array of form IDs
 }
-
-
