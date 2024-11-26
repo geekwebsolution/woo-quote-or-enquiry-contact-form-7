@@ -100,13 +100,19 @@ if (!class_exists('WQOECF_Update_Checker')) {
             if (!$remote) {
                 return $false;
             }
-
-            // Convert response to stdClass object
+          
             $plugin_info = new stdClass();
             $plugin_info->name = $remote->name ?? '';
             $plugin_info->slug = $this->plugin_slug;
             $plugin_info->version = $remote->new_version;
             $plugin_info->author = $remote->author ?? '';
+
+            //kaushal
+            $plugin_info->last_updated = '2024-11-12'; //$remote->author ?? '';  //2024-11-12
+            $plugin_info->requires = '6.6'; //$remote->author ?? '';
+            $plugin_info->requires_php = '6.6'; //$remote->author ?? '';
+            $plugin_info->active_installs = $remote->active_installs ?? '';
+           
             $plugin_info->homepage = $remote->url ?? '';
             $plugin_info->sections = [
                 'description' => $remote->description ?? '',
