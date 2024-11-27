@@ -44,6 +44,8 @@ function wqoecf_plugin_active_quote_or_enquiry_contact_form() {
 	}
 }
 
+add_action('upgrader_process_complete', 'wqoecf_updater_activate'); // remove  transient  on plugin  update
+
 /** Trigger an admin notice if WooCommerce or Contact Form 7 is not installed.*/
 if (! function_exists('wqoecf_install_require_plugins_admin_notice')) {
 	function wqoecf_install_require_plugins_admin_notice() {
