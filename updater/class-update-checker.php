@@ -52,6 +52,7 @@ if (!class_exists('WQOECF_Update_Checker')) {
          * Check for plugin updates.
          */
         public function check_for_updates($transient) {
+
             if (empty($transient->checked)) {
                 return $transient;
             }
@@ -78,7 +79,7 @@ if (!class_exists('WQOECF_Update_Checker')) {
             $plugin->url = $remote->url ?? '';
             $plugin->tested = $remote->tested ?? '';
             $plugin->requires = $remote->requires ?? '';
-
+            $plugin->icons = (array)$remote->icons ?? [];
             $transient->response[$this->plugin_base] = $plugin;
 
             if ($this->cache_allowed) {
@@ -107,17 +108,19 @@ if (!class_exists('WQOECF_Update_Checker')) {
             $plugin_info->version = $remote->new_version;
             $plugin_info->author = $remote->author ?? '';
 
-            //kaushal
-            $plugin_info->last_updated = '2024-11-12'; //$remote->author ?? '';  //2024-11-12
-            $plugin_info->requires = '6.6'; //$remote->author ?? '';
-            $plugin_info->requires_php = '6.6'; //$remote->author ?? '';
+            $plugin_info->last_updated = $remote->last_updated ?? '';
+            $plugin_info->requires = $remote->requires ?? '';
+            $plugin_info->tested = $remote->tested ?? '';
+            $plugin_info->requires_php = $remote->requires_php ?? '';
             $plugin_info->active_installs = $remote->active_installs ?? '';
+            $plugin_info->banners = (array)$remote->banners ?? '';
            
             $plugin_info->homepage = $remote->url ?? '';
             $plugin_info->sections = [
                 'description' => $remote->description ?? '',
                 'changelog' => $remote->changelog ?? '',
             ];
+
             $plugin_info->download_link = $remote->package ?? '';
 
             return $plugin_info;

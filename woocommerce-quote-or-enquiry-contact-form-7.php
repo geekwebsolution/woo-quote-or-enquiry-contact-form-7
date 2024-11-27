@@ -36,6 +36,9 @@ register_activation_hook(__FILE__, 'wqoecf_plugin_active_quote_or_enquiry_contac
 
 function wqoecf_plugin_active_quote_or_enquiry_contact_form() {
 	$options_db =  wqoecf_quote_enquiry_options();
+	
+	wqoecf_updater_activate();
+	
 	if (empty($options_db)) {
 		do_action('wp_default_color_text_options');
 	}
