@@ -27,13 +27,13 @@ if (!class_exists('WQOECF_Update_Checker')) {
          */
         public function request_info() {
             $response = wp_remote_get(
-                $this->get_api . "gcl-free-plugins/plugins/{$this->plugin_slug}/plugininfo.json",
+                $this->get_api . "gcl-free-plugins/info.php/?slug={$this->plugin_slug}",
                 [
                     'timeout' => 10,
                     'headers' => ['Accept' => 'application/json'],
                 ]
             );
-
+            //$this->get_api . "gcl-free-plugins/plugins/{$this->plugin_slug}/plugininfo.json",
             if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
                 return false;
             }
