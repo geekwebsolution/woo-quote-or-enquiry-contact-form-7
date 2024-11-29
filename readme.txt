@@ -87,6 +87,10 @@ To pass product details in contact form use field name like product-name, produc
 == Changelog ==
 = 3.4.8 =
 ** Bug fixes
+** Updater library added for auto update the plugin.
+
+= 3.4.7 =
+** Bug fixes
 
 = 3.4.6 =
 ** Bug fixes for google captcha issue under the popup
