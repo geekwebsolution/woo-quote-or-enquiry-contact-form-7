@@ -12,7 +12,7 @@ function wqoecf_updater_utility() {
         'get_base' => WQOECF_PLUGIN_BASENAME,
         'get_slug' => WQOECF_PLUGIN_DIR,
         'get_version' => WQOECF_BUILD,
-        'get_api' => 'https://dev.geekcodelab.com/',
+        'get_api' => 'https://download.geekcodelab.com/',
         'license_update_class' => $prefix . 'Update_Checker'
     ];
 

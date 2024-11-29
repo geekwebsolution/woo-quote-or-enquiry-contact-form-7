@@ -27,7 +27,7 @@ if (!class_exists('WQOECF_Update_Checker')) {
          */
         public function request_info() {
             $response = wp_remote_get(
-                $this->get_api . "gcl-free-plugins/info.php/?slug={$this->plugin_slug}",
+                $this->get_api . "info.php/?slug={$this->plugin_slug}",
                 [
                     'timeout' => 10,
                     'headers' => ['Accept' => 'application/json'],
