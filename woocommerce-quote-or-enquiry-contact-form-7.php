@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.7
+Version: 3.4.8
 WC tested up to: 9.3.3
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
@@ -11,7 +11,7 @@ Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 
 if (!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD", "3.4.7");
+define("WQOECF_BUILD", "3.4.8");
 
 if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -19,9 +19,15 @@ if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 if (!defined("WQOECF_PLUGIN_URL"))
 	define("WQOECF_PLUGIN_URL", plugins_url() . '/' . basename(dirname(__FILE__)));
 
+if (!defined("WQOECF_PLUGIN_DIR"))
+	define("WQOECF_PLUGIN_DIR", plugin_basename(__DIR__));
+
+if (!defined("WQOECF_PLUGIN_BASENAME"))
+	define("WQOECF_PLUGIN_BASENAME", plugin_basename(__FILE__));
 
 require_once(WQOECF_PLUGIN_DIR_PATH . 'functions.php');
 require(WQOECF_PLUGIN_DIR_PATH . 'enquiry.php');
+require(WQOECF_PLUGIN_DIR_PATH . 'updater/updater.php');
 
 /**
  * Regisration activation
@@ -30,10 +36,15 @@ register_activation_hook(__FILE__, 'wqoecf_plugin_active_quote_or_enquiry_contac
 
 function wqoecf_plugin_active_quote_or_enquiry_contact_form() {
 	$options_db =  wqoecf_quote_enquiry_options();
+	
+	wqoecf_updater_activate();
+	
 	if (empty($options_db)) {
 		do_action('wp_default_color_text_options');
 	}
 }
+
+add_action('upgrader_process_complete', 'wqoecf_updater_activate'); // remove  transient  on plugin  update
 
 /** Trigger an admin notice if WooCommerce or Contact Form 7 is not installed.*/
 if (! function_exists('wqoecf_install_require_plugins_admin_notice')) {
@@ -238,7 +249,11 @@ function wqoecf_main() {
 		$get_product_tag = $options['product_tag'];
 	}
 
-	if ($status == 'on' && !empty($contactform)) {
+	$form_ids = get_all_cf7_form_ids();
+	$form_is_in_array = in_array($contactform, $form_ids);
+
+	if ($status == 'on' && !empty($contactform) && $form_is_in_array) {
+
 		$list_page = "";
 		$options =  wqoecf_quote_enquiry_options();
 		if (isset($options['product_list_page'])) $list_page = $options['product_list_page'];
@@ -441,4 +456,18 @@ function wqoecf_before_woocommerce_init() {
 	if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
 	}
+}
+
+
+//  retrive all contact forms id 
+function get_all_cf7_form_ids() {
+	$args = array(
+		'post_type' => 'wpcf7_contact_form',
+		'posts_per_page' => -1,
+		'fields' => 'ids', // Retrieve only post IDs
+	);
+
+	$cf7_forms = get_posts($args);
+
+	return $cf7_forms; // Returns an array of form IDs
 }
