@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Quote or Enquiry Contact Form 7
 Description: A plugin to add product enquiry button with contact form 7 
 Author: Geek Code Lab
-Version: 3.4.8
+Version: 3.4.9
 WC tested up to: 9.3.3
 Author URI: https://geekcodelab.com/
 Text Domain: woocommerce-quote-or-enquiry-contact-form-7
@@ -11,7 +11,7 @@ Text Domain: woocommerce-quote-or-enquiry-contact-form-7
 
 if (!defined('ABSPATH')) exit;
 
-define("WQOECF_BUILD", "3.4.8");
+define("WQOECF_BUILD", "3.4.9");
 
 if (!defined("WQOECF_PLUGIN_DIR_PATH"))
 	define("WQOECF_PLUGIN_DIR_PATH", plugin_dir_path(__FILE__));
@@ -103,7 +103,7 @@ function wqoecf_plugin_add_settings_link($links) {
 add_action('wp_enqueue_scripts', 'wqoecf_include_front_script');
 function wqoecf_include_front_script() {
 	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);
-	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/js/woo-enquiry-front-script.js", array(), WQOECF_BUILD, true);
+	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/js/woo-enquiry-front-script.js", array('jquery', 'contact-form-7'), WQOECF_BUILD, true);
 
 
 	wp_enqueue_style('wqoecf-front-woo-quote');
