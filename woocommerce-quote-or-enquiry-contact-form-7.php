@@ -103,7 +103,7 @@ function wqoecf_plugin_add_settings_link($links) {
 add_action('wp_enqueue_scripts', 'wqoecf_include_front_script');
 function wqoecf_include_front_script() {
 	wp_register_style("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/css/wqoecf-front-style.css", array(), WQOECF_BUILD);
-	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/js/woo-enquiry-front-script.js", array(), WQOECF_BUILD, true);
+	wp_register_script("wqoecf-front-woo-quote", WQOECF_PLUGIN_URL . "/assets/js/woo-enquiry-front-script.js", array('jquery', 'contact-form-7'), WQOECF_BUILD, true);
 
 
 	wp_enqueue_style('wqoecf-front-woo-quote');
