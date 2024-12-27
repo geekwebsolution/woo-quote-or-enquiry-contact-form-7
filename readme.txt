@@ -86,7 +86,7 @@ To pass product details in contact form use field name like product-name, produc
 
 == Changelog ==
 = 3.5.0 =
-** BBug Fixed
+** Bug Fixed
 ** Added updater function
 
 = 3.4.8 =
